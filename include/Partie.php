@@ -63,11 +63,11 @@ class Partie {
         $this->Pays = $pays;
     }
 
-    public function getNom() {
+    public function getNomPartie() {
         return $this->nomPartie;
     }
 
-    public function setNom($nom) {
+    public function setNomPartie($nom) {
         $this->nomPartie = $nom;
     }
 
@@ -149,7 +149,7 @@ class Partie {
         $rs->bindParam(':nbJoueursMax', $nbJoueursMax);
         $pays = $partie->getPays();
         $rs->bindParam(':pays', $pays);
-        $nomPartie = $partie->getNom();
+        $nomPartie = $partie->getNomPartie();
         $rs->bindParam(':nomPartie', $nomPartie);
         $rs->execute();
         return $rs;
@@ -173,7 +173,7 @@ class Partie {
         $rs->bindParam(':nbJoueursMax', $nbJoueursMax);
         $pays = $partie->getPays();
         $rs->bindParam(':pays', $pays);
-        $nomPartie = $partie->getNom();
+        $nomPartie = $partie->getNomPartie();
         $rs->bindParam(':nomPartie', $nomPartie);
         $id = $partie->getId();
         $rs->bindParam('id', $id);
