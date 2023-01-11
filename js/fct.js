@@ -24,7 +24,8 @@ function verifChampsRempInc(){
     var cmdp = document.getElementById("CmdpIns").value.length;
     var pseudo = document.getElementById("pseudoIns").value.length;
     var mail = document.getElementById("mailIns").value.length;
-    if(mdp!=0 && cmdp!=0 && pseudo!=0 && mail!=0){
+    var rgpd = document.getElementById("rgpd").checked;
+    if(mdp!=0 && cmdp!=0 && pseudo!=0 && mail!=0 && rgpd){
         $("#IscBuValidate").removeAttr("disabled");
         document.getElementById("warningBis").innerHTML=""
     }else{
