@@ -5,11 +5,11 @@ require_once("include/Carte.php");
 require_once("include/Joueur.php");
 require_once("include/Partie.php");
 require_once("include/Vote.php");
-include("vues/v_entete.php") ;
 session_start();
 $pdo = PdoGsb::getPdoGsb();
 $estConnecte = estConnecte();
 
+include("vues/v_entete.php");
 if(!isset($_REQUEST['uc'])){
      $_REQUEST['uc'] = 'accueil';
 }	 
