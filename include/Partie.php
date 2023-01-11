@@ -1,10 +1,14 @@
 <?php
 class Partie {
     private int $partie_id;
+    private int $nbNuit = 0;
+    private ?bool $estTerminer;
+    private ?bool $estCommencer;
+    private ?int $nbJoueursMin = 6;
+    private ?int $nbJoueursMax = 18;
+    private ?string $Pays;
+    private ?string $nomPartie;
     private $joueurs = [];
-    private int $nbNuit;
-    private int $joueurMin = 6;
-    private int $joueurMax = 18;
     private int $timer = 0;
 
     public function getId() {
@@ -15,24 +19,56 @@ class Partie {
         $this->partie_id = $id;
     }
 
-    public function getJoueurs() {
-        return $this->joueurs;
-    }
-
-    public function getJoueurMin() {
-        return $this->joueurMin;
-    }
-
-    public function getJoueurMax() {
-        return $this->joueurMax;
-    }
-
     public function getNbNuit() {
         return $this->nbNuit;
     }
 
     public function setNbNuit($nbNuit) {
         $this->nbNuit = $nbNuit;
+    }
+
+    public function getEstTerminer() {
+        return $this->estTerminer;
+    }
+
+    public function setEstTerminer($estTerminer) {
+        $this->estTerminer = $estTerminer;
+    }
+
+    public function getEstCommencer() {
+        return $this->estCommencer;
+    }
+
+    public function setEstCommencer($estCommencer) {
+        $this->estCommencer = $estCommencer;
+    }
+
+    public function getJoueurs() {
+        return $this->joueurs;
+    }
+
+    public function getJoueurMin() {
+        return $this->nbJoueursMin;
+    }
+
+    public function getJoueurMax() {
+        return $this->nbJoueursMax;
+    }
+
+    public function getPays() {
+        return $this->Pays;
+    }
+
+    public function setPays($pays) {
+        $this->Pays = $pays;
+    }
+
+    public function getNom() {
+        return $this->nomPartie;
+    }
+
+    public function setNom($nom) {
+        $this->nomPartie = $nom;
     }
 
     public function getTimer() {
@@ -101,10 +137,20 @@ class Partie {
      * @return PDOStatement|bool
      */
     public static function add(Partie $partie) {
-        $sql = "INSERT INTO partie(nbNuit) VALUES(:nbNuit)";
+        $sql = "INSERT INTO partie(nbNuit, estTerminer, estCommencer, nbJoueursMax, Pays, nomPartie) VALUES(:nbNuit, :estTerminer, :estCommencer, :nbJoueursMax, :pays, :nomPartie)";
         $rs = PdoGsb::get_monPdo()->prepare($sql);
         $nbNuit = $partie->getNbNuit();
         $rs->bindParam('nbNuit', $nbNuit);
+        $estTerminer = $partie->getEstTerminer();
+        $rs->bindParam(':estTerminer', $estTerminer);
+        $estCommencer = $partie->getEstCommencer();
+        $rs->bindParam(':estCommencer', $estCommencer);
+        $nbJoueursMax = $partie->getJoueurMax();
+        $rs->bindParam(':nbJoueursMax', $nbJoueursMax);
+        $pays = $partie->getPays();
+        $rs->bindParam(':pays', $pays);
+        $nomPartie = $partie->getNom();
+        $rs->bindParam(':nomPartie', $nomPartie);
         $rs->execute();
         return $rs;
     }
@@ -115,10 +161,20 @@ class Partie {
      * @return PDOStatement|bool
      */
     public static function update(Partie $partie) {
-        $sql = "UPDATE partie SET nbNuit = :nbNuit WHERE partie_id = :id";
+        $sql = "UPDATE partie SET nbNuit = :nbNuit, estTerminer = :estTerminer, estCommencer = :estCommencer, nbJoueursMax = :nbJoueursMax, Pays = :pays, nomPartie = :nomPartie WHERE partie_id = :id";
         $rs = PdoGsb::get_monPdo()->prepare($sql);
         $nbNuit = $partie->getNbNuit();
         $rs->bindParam('nbNuit', $nbNuit);
+        $estTerminer = $partie->getEstTerminer();
+        $rs->bindParam(':estTerminer', $estTerminer);
+        $estCommencer = $partie->getEstCommencer();
+        $rs->bindParam(':estCommencer', $estCommencer);
+        $nbJoueursMax = $partie->getJoueurMax();
+        $rs->bindParam(':nbJoueursMax', $nbJoueursMax);
+        $pays = $partie->getPays();
+        $rs->bindParam(':pays', $pays);
+        $nomPartie = $partie->getNom();
+        $rs->bindParam(':nomPartie', $nomPartie);
         $id = $partie->getId();
         $rs->bindParam('id', $id);
         $rs->execute();
@@ -146,18 +202,23 @@ class Partie {
      */
     public static function getJoueursInPartie(Partie $partie) : array
     {
-        $sql = "SELECT joueur_id FROM joueur_partie WHERE partie_id = :id";
+        $sql = "SELECT joueur.* FROM joueur_partie INNER JOIN joueur ON joueur_partie.joueur_id = joueur.joueur_id WHERE joueur_partie.partie_id = :id";
         $rs = PdoGsb::get_monPdo()->prepare($sql);
+        $rs->setFetchMode(PDO::FETCH_CLASS, 'Joueur');
         $id = $partie->getId();
         $rs->bindParam('id', $id);
         $rs->execute();
+        $lesJoueurs = $rs->fetchAll();
+        return $lesJoueurs;
+    }
+
+    /**
+     * retournes toutes les parties qui peuvent être rejointent par les joueurs.
+     */
+    public static function lesPartieActive(){
+        $sql="SELECT partie_id, nbJoueursMax, nomPartie, pays FROM partie WHERE estTerminer=false and estCommencer=false";
+        $rs = PdoGsb::get_monPdo()->query($sql);
         $results = $rs->fetchAll();
-
-        $joueurs = [];
-        foreach ($results as $result) {
-            $joueurs[] = Joueur::getJoueurById($result["joueur_id"]);
-        }
-
-        return $joueurs;
+        return $results;
     }
 }
