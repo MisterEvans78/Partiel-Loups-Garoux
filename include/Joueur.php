@@ -11,6 +11,32 @@ class Joueur {
     private string $Mdp;
     private ?int $partie_id = null;
 
+    public function __construct($id, $pseudo, $email,$mdp) {
+        $this->joueur_id=$id;
+        $this->pseudo=$pseudo;
+        $this->Email=$email;
+        $this->Mdp=$mdp;
+        $this-> estMaire=null;
+        $this-> estVivant=null;
+        $this-> estAmoureux=null;
+        $this-> carte_id=null;
+    }
+    public function getcarte_id() {
+        return $this->carte_id;
+    }
+
+    public function setcarte_id($id) {
+        $this->carte_id = $id;
+    }
+
+    public function getPartie_id() {
+        return $this->partie_id;
+    }
+
+    public function setPartie_id($id) {
+        $this->partie_id = $id;
+    }
+
     public function getId() {
         return $this->joueur_id;
     }
@@ -111,10 +137,10 @@ class Joueur {
         $estVivant = $joueur->getEstVivant();
         $estMaire = $joueur->getEstMaire();
         $estAmoureux = $joueur->getEstAmoureux();
-        $carte_id = $joueur->getCarte()->getId();
+        $carte_id = $joueur->getcarte_id();
         $email = $joueur->getEmail();
         $mdp = $joueur->getMdp();
-        $partie_id = $joueur->getPartie()->getId();
+        $partie_id = $joueur->getPartie_id();
         $rs->bindParam('pseudo', $pseudo);
         $rs->bindParam('estVivant', $estVivant);
         $rs->bindParam('estMaire', $estMaire);
@@ -123,7 +149,6 @@ class Joueur {
         $rs->bindParam('email', $email);
         $rs->bindParam('mdp', $mdp);
         $rs->bindParam('partie_id', $partie_id);
-
         $rs->execute();
         $joueur->setId($pdo->lastInsertId());
 		return $rs;
@@ -138,16 +163,15 @@ class Joueur {
     {
         $sql = "UPDATE joueur SET pseudo = :pseudo, estVivant = :estVivant, estMaire = :estMaire, estAmoureux = :estAmoureux, carte_id = :carte_id, Email = :email, Mdp = :mdp, partie_id = :partie_id WHERE joueur_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
-
+        $id=$joueur->getId();
         $pseudo = $joueur->getPseudo();
         $estVivant = $joueur->getEstVivant();
         $estMaire = $joueur->getEstMaire();
         $estAmoureux = $joueur->getEstAmoureux();
-        $carte_id = $joueur->getCarte()->getId();
+        $carte_id = $joueur->getcarte_id();
         $email = $joueur->getEmail();
         $mdp = $joueur->getMdp();
-        $id = $joueur->getId();
-        $partie_id = $joueur->getPartie()->getId();
+        $partie_id = $joueur->getPartie_id();
         $rs->bindParam('pseudo', $pseudo);
         $rs->bindParam('estVivant', $estVivant);
         $rs->bindParam('estMaire', $estMaire);
@@ -157,7 +181,6 @@ class Joueur {
         $rs->bindParam('mdp', $mdp);
         $rs->bindParam('id', $id);
         $rs->bindParam('partie_id', $partie_id);
-
         $rs->execute();
 		return $rs;
     }
