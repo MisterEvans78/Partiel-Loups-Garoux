@@ -9,6 +9,7 @@ class Joueur {
     private ?int $carte_id;
     private ?string $Email;
     private string $Mdp;
+    private ?int $partie_id = null;
 
     public function getId() {
         return $this->joueur_id;
@@ -59,6 +60,15 @@ class Joueur {
         $this->carte_id = $carte->getId();
     }
 
+    public function getPartie() : Partie
+    {
+        return Partie::getPartieById($this->partie_id);
+    }
+
+    public function setPartie(Partie $partie) {
+        $this->partie_id = $partie->getId();
+    }
+
     public function getEmail() {
         return $this->Email;
     }
@@ -93,7 +103,7 @@ class Joueur {
      */
     public static function add(Joueur $joueur)
     {
-        $sql = "INSERT INTO joueur(pseudo, estVivant, estMaire, estAmoureux, carte_id, Email, Mdp) VALUES(:pseudo, :estVivant, :estMaire, :estAmoureux, :carte_id, :email, :mdp)";
+        $sql = "INSERT INTO joueur(pseudo, estVivant, estMaire, estAmoureux, carte_id, Email, Mdp, partie_id) VALUES(:pseudo, :estVivant, :estMaire, :estAmoureux, :carte_id, :email, :mdp, :partie_id)";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
         $pseudo = $joueur->getPseudo();
         $rs->bindParam('pseudo', $pseudo);
@@ -109,6 +119,8 @@ class Joueur {
         $rs->bindParam('email', $email);
         $mdp = $joueur->getMdp();
         $rs->bindParam('mdp', $mdp);
+        $partie_id = $joueur->getPartie()->getId();
+        $rs->bindParam('partie_id', $partie_id);
         $rs->execute();
 		return $rs;
     }
@@ -120,7 +132,7 @@ class Joueur {
      */
     public static function update(Joueur $joueur)
     {
-        $sql = "UPDATE joueur SET pseudo = :pseudo, estVivant = :estVivant, estMaire = :estMaire, estAmoureux = :estAmoureux, carte_id = :carte_id, Email = :email, Mdp = :mdp WHERE joueur_id = :id";
+        $sql = "UPDATE joueur SET pseudo = :pseudo, estVivant = :estVivant, estMaire = :estMaire, estAmoureux = :estAmoureux, carte_id = :carte_id, Email = :email, Mdp = :mdp, partie_id = :partie_id WHERE joueur_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
         $pseudo = $joueur->getPseudo();
         $rs->bindParam('pseudo', $pseudo);
@@ -138,6 +150,8 @@ class Joueur {
         $rs->bindParam('mdp', $mdp);
         $id = $joueur->getId();
         $rs->bindParam('id', $id);
+        $partie_id = $joueur->getPartie()->getId();
+        $rs->bindParam('partie_id', $partie_id);
         $rs->execute();
 		return $rs;
     }

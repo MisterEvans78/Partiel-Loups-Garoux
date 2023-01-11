@@ -202,7 +202,7 @@ class Partie {
      */
     public static function getJoueursInPartie(Partie $partie) : array
     {
-        $sql = "SELECT joueur.* FROM joueur_partie INNER JOIN joueur ON joueur_partie.joueur_id = joueur.joueur_id WHERE joueur_partie.partie_id = :id";
+        $sql = "SELECT * FROM joueur WHERE partie_id = :id";
         $rs = PdoGsb::get_monPdo()->prepare($sql);
         $rs->setFetchMode(PDO::FETCH_CLASS, 'Joueur');
         $id = $partie->getId();
@@ -220,5 +220,12 @@ class Partie {
         $rs = PdoGsb::get_monPdo()->query($sql);
         $results = $rs->fetchAll();
         return $results;
+    }
+
+    public static function nbJoeurPartie($idPartie){
+        $sql=" SELECT COUNT(*) FROM joueur WHERE partie_id=$idPartie";
+        $rs = PdoGsb::get_monPdo()->query($sql);
+        $results = $rs->fetch();
+        return $results[0];
     }
 }
