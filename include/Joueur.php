@@ -84,6 +84,11 @@ class Joueur {
 		return $result;
     }
 
+    /**
+     * Ajouter le joueur dans la base de données
+     * @param Joueur $joueur
+     * @return PDOStatement|bool
+     */
     public static function add(Joueur $joueur)
     {
         $sql = "INSERT INTO joueur(pseudo, estVivant, estMaire, estAmoureux, carte_id, Email, Mdp) VALUES(:pseudo, :estVivant, :estMaire, :estAmoureux, :carte_id, :email, :mdp)";
@@ -106,12 +111,15 @@ class Joueur {
 		return $rs;
     }
 
+    /**
+     * Modifier le joueur dans la base de données (NE MODIFIE NI LE PSEUDO NI L'EMAIL)
+     * @param Joueur $joueur
+     * @return PDOStatement|bool
+     */
     public static function update(Joueur $joueur)
     {
-        $sql = "UPDATE joueur SET pseudo = :pseudo, estVivant = :estVivant, estMaire = :estMaire, estAmoureux = :estAmoureux, carte_id = :carte_id, Email = :email, Mdp = :mdp";
+        $sql = "UPDATE joueur SET estVivant = :estVivant, estMaire = :estMaire, estAmoureux = :estAmoureux, carte_id = :carte_id, Mdp = :mdp";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
-        $pseudo = $joueur->getPseudo();
-        $rs->bindParam('pseudo', $pseudo);
         $estVivant = $joueur->getEstVivant();
         $rs->bindParam('estVivant', $estVivant);
         $estMaire = $joueur->getEstMaire();
@@ -121,13 +129,16 @@ class Joueur {
         $carte_id = $joueur->getCarte()->getId();
         $rs->bindParam('carte_id', $carte_id);
         $email = $joueur->getEmail();
-        $rs->bindParam('email', $email);
-        $mdp = $joueur->getMdp();
         $rs->bindParam('mdp', $mdp);
         $rs->execute();
 		return $rs;
     }
 
+    /**
+     * Supprimer le joueur dans la base de données
+     * @param Joueur $joueur
+     * @return PDOStatement|bool
+     */
     public static function delete(Joueur $joueur)
     {
         $sql = "DELETE FROM joueur WHERE joueur_id = :id";
