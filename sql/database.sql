@@ -10,6 +10,16 @@ CREATE TABLE IF NOT EXISTS Carte(
    PRIMARY KEY(carte_id)
 );
 
+
+CREATE TABLE IF NOT EXISTS Chats(
+   Chatid INT NOT NULL AUTO_INCREMENT,
+   chatUserid INT,
+   chatGameid INT,
+   CharText VARCHAR(50)
+   PRIMARY KEY(Chatid)
+);
+
+
 CREATE TABLE IF NOT EXISTS Partie(
    partie_id INT NOT NULL AUTO_INCREMENT,
    nbNuit INT,
