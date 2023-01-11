@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css?family=NanumGothicCoding:300,400,500,700,900&display=swap');
-
 * {
   box-sizing: border-box;
 }
@@ -7,8 +5,17 @@
 .default {
   background-image: url("/images/fond_img.png");
   background-size: cover;
+  background-repeat: no-repeat;
   color: white;
   font-family: 'NanumGothicCoding', monospace;
+}
+
+footer {
+  color: white;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
 }
 
 .title {
@@ -70,6 +77,12 @@
   height: 400px;
 }
 
+.carte:hover {
+  box-shadow: black 0px 0px 20px 0px;
+  transition: 0.5s;
+  transform: scale(1.1);
+}
+
 .modal-content {
   background-color: #a5814d!important;
   border-radius: 10px;
@@ -113,7 +126,21 @@
   height: 300px;
 }
 
+.carousel-control-next {
+  justify-content: end!important;
+}
+
+.carousel-control-prev {
+  justify-content: start!important;
+}
+
 .p-carousel {
   color: black;
   font-size: 1em;
+  text-align: center;
+}
+
+.chat {
+  bottom: 0;
+  height: 200px;
 }
