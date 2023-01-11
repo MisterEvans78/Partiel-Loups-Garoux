@@ -43,10 +43,6 @@ class Partie {
         $this->timer = $timer;
     }
 
-    public function __construct($nbNuit) {
-        $this->nbNuit = $nbNuit;
-    }
-
     public function debuteLaPartie() {
         if (count($this->joueurs) >= $this->getJoueurMin()) {
             $this->setTimer(60);
@@ -57,7 +53,7 @@ class Partie {
      * Ajoute un joueur à la partie
      * @param Joueur $joueur
      */
-    public function ajouterJoueur($joueur) {
+    public function ajouterJoueur(Joueur $joueur) {
         if (!$this->partiePleine()) {
             $this->joueurs[] = $joueur;
         } else {
@@ -141,5 +137,27 @@ class Partie {
         $rs->bindParam('id', $id);
         $rs->execute();
         return $rs;
+    }
+
+    /**
+     * Recupérer la liste de joueurs d'une partie à partir de la base de données.
+     * @param Partie $partie
+     * @return array
+     */
+    public static function getJoueursInPartie(Partie $partie) : array
+    {
+        $sql = "SELECT joueur_id FROM joueur_partie WHERE partie_id = :id";
+        $rs = PdoGsb::get_monPdo()->prepare($sql);
+        $id = $partie->getId();
+        $rs->bindParam('id', $id);
+        $rs->execute();
+        $results = $rs->fetchAll();
+
+        $joueurs = [];
+        foreach ($results as $result) {
+            $joueurs[] = Joueur::getJoueurById($result["joueur_id"]);
+        }
+
+        return $joueurs;
     }
 }
