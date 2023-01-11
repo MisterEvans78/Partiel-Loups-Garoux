@@ -23,6 +23,10 @@ switch($uc){
 		include("controleurs/c_connexion.php");
 		break;
 	}
+	case 'partie':{
+		include("controleurs/c_partie.php");
+		break;
+	}
 }
 include("vues/v_pied.php") ;
 ?>
