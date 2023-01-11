@@ -60,14 +60,18 @@ class Vote {
     public static function add(Vote $vote)
     {
         $sql = "INSERT INTO vote(joueur_id, partie_id, joueur_vote) VALUES(:joueur_id, :partie_id, :joueur_vote)";
-		$rs = PdoGsb::get_monPdo()->prepare($sql);
+        $pdo = PdoGsb::get_monPdo();
+		$rs = $pdo->prepare($sql);
+
         $joueur_id = $vote->getJoueur()->getId();
-        $rs->bindParam('joueur_id', $joueur_id);
         $partie_id = $vote->getPartie()->getId();
-        $rs->bindParam('partie_id', $partie_id);
         $joueur_vote = $vote->getJoueurVote()->getId();
+        $rs->bindParam('joueur_id', $joueur_id);
+        $rs->bindParam('partie_id', $partie_id);
         $rs->bindParam('joueur_vote', $joueur_vote);
+
         $rs->execute();
+        $vote->setId($pdo->lastInsertId());
 		return $rs;
     }
 
@@ -80,14 +84,16 @@ class Vote {
     {
         $sql = "UPDATE vote SET joueur_id = :joueur_id, partie_id = :partie_id, joueur_vote = :joueur_vote WHERE vote_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
+
         $joueur_id = $vote->getJoueur()->getId();
-        $rs->bindParam('joueur_id', $joueur_id);
         $partie_id = $vote->getPartie()->getId();
-        $rs->bindParam('partie_id', $partie_id);
         $joueur_vote = $vote->getJoueurVote()->getId();
-        $rs->bindParam('joueur_vote', $joueur_vote);
         $id = $vote->getId();
+        $rs->bindParam('joueur_id', $joueur_id);
+        $rs->bindParam('partie_id', $partie_id);
+        $rs->bindParam('joueur_vote', $joueur_vote);
         $rs->bindParam('id', $id);
+
         $rs->execute();
 		return $rs;
     }
@@ -100,9 +106,11 @@ class Vote {
     public static function delete(Vote $vote)
     {
         $sql = "DELETE FROM vote WHERE vote_id = :id";
+
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
         $id = $vote->getId();
         $rs->bindParam('id', $id);
+
         $rs->execute();
 		return $rs;
     }

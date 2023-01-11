@@ -2,6 +2,7 @@
 class Partie {
     private int $partie_id;
     private int $nbNuit = 0;
+    private int $nbJoueurs;
     private ?bool $estTerminer;
     private ?bool $estCommencer;
     private ?int $nbJoueursMin = 6;
@@ -79,6 +80,14 @@ class Partie {
         $this->timer = $timer;
     }
 
+    public function __construct($nbJoueursMax, $pays, $nomPartie) {
+        $this->estTerminer=False;
+        $this->estCommencer=False;
+        $this->nbJoueurs=$nbJoueursMax;
+        $this->Pays=$pays;
+        $this->nomPartie=$nomPartie;
+    }
+
     public function debuteLaPartie() {
         if (count($this->joueurs) >= $this->getJoueurMin()) {
             $this->setTimer(60);
@@ -116,8 +125,14 @@ class Partie {
      * Met fin à la partie
      */
     public function finDePartie() {
-        $this->setNbNuit(0);
-        $this->joueurs = [];
+        $this->estTerminer = true;
+    }
+
+    /**
+     * Début de la partie
+     */
+    public function debutDePartie() {
+        $this->estCommencer = true;
     }
 
     public static function getPartieById($id) : Partie
@@ -138,20 +153,24 @@ class Partie {
      */
     public static function add(Partie $partie) {
         $sql = "INSERT INTO partie(nbNuit, estTerminer, estCommencer, nbJoueursMax, Pays, nomPartie) VALUES(:nbNuit, :estTerminer, :estCommencer, :nbJoueursMax, :pays, :nomPartie)";
-        $rs = PdoGsb::get_monPdo()->prepare($sql);
+        $pdo = PdoGsb::get_monPdo();
+        $rs = $pdo->prepare($sql);
+
         $nbNuit = $partie->getNbNuit();
-        $rs->bindParam('nbNuit', $nbNuit);
         $estTerminer = $partie->getEstTerminer();
-        $rs->bindParam(':estTerminer', $estTerminer);
         $estCommencer = $partie->getEstCommencer();
-        $rs->bindParam(':estCommencer', $estCommencer);
         $nbJoueursMax = $partie->getJoueurMax();
-        $rs->bindParam(':nbJoueursMax', $nbJoueursMax);
         $pays = $partie->getPays();
-        $rs->bindParam(':pays', $pays);
         $nomPartie = $partie->getNomPartie();
+        $rs->bindParam('nbNuit', $nbNuit);
+        $rs->bindParam(':estTerminer', $estTerminer);
+        $rs->bindParam(':estCommencer', $estCommencer);
+        $rs->bindParam(':nbJoueursMax', $nbJoueursMax);
+        $rs->bindParam(':pays', $pays);
         $rs->bindParam(':nomPartie', $nomPartie);
+
         $rs->execute();
+        $partie->setId($pdo->lastInsertId());
         return $rs;
     }
 
@@ -163,20 +182,22 @@ class Partie {
     public static function update(Partie $partie) {
         $sql = "UPDATE partie SET nbNuit = :nbNuit, estTerminer = :estTerminer, estCommencer = :estCommencer, nbJoueursMax = :nbJoueursMax, Pays = :pays, nomPartie = :nomPartie WHERE partie_id = :id";
         $rs = PdoGsb::get_monPdo()->prepare($sql);
+
         $nbNuit = $partie->getNbNuit();
-        $rs->bindParam('nbNuit', $nbNuit);
         $estTerminer = $partie->getEstTerminer();
-        $rs->bindParam(':estTerminer', $estTerminer);
         $estCommencer = $partie->getEstCommencer();
-        $rs->bindParam(':estCommencer', $estCommencer);
         $nbJoueursMax = $partie->getJoueurMax();
-        $rs->bindParam(':nbJoueursMax', $nbJoueursMax);
         $pays = $partie->getPays();
-        $rs->bindParam(':pays', $pays);
         $nomPartie = $partie->getNomPartie();
-        $rs->bindParam(':nomPartie', $nomPartie);
         $id = $partie->getId();
+        $rs->bindParam('nbNuit', $nbNuit);
+        $rs->bindParam(':estTerminer', $estTerminer);
+        $rs->bindParam(':estCommencer', $estCommencer);
+        $rs->bindParam(':nbJoueursMax', $nbJoueursMax);
+        $rs->bindParam(':pays', $pays);
+        $rs->bindParam(':nomPartie', $nomPartie);
         $rs->bindParam('id', $id);
+
         $rs->execute();
         return $rs;
     }
@@ -189,8 +210,10 @@ class Partie {
     public static function delete(Partie $partie) {
         $sql = "DELETE FROM partie WHERE partie_id = :id";
         $rs = PdoGsb::get_monPdo()->prepare($sql);
+
         $id = $partie->getId();
         $rs->bindParam('id', $id);
+
         $rs->execute();
         return $rs;
     }
@@ -228,4 +251,6 @@ class Partie {
         $results = $rs->fetch();
         return $results[0];
     }
+
+    
 }

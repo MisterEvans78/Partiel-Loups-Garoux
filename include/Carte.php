@@ -3,9 +3,9 @@
 class Carte {
     private int $carte_id;
     private string $nom;
-    private ?string $description;
-    private ?string $image;
-    private ?string $power;
+    private ?string $description = null;
+    private ?string $image = null;
+    private ?string $power = null;
 
 
     public function getId() {
@@ -85,15 +85,19 @@ class Carte {
     public static function add(Carte $carte)
     {
         $sql = "INSERT INTO carte(nom, image, description) VALUES(:nom, :image, :description)";
-		$rs = PdoGsb::get_monPdo()->prepare($sql);
+        $pdo = PdoGsb::get_monPdo();
+		$rs = $pdo->prepare($sql);
+
         $nom = $carte->getNom();
-        $rs->bindParam('nom', $nom);
         $image = $carte->getImage();
-        $rs->bindParam('image', $image);
         $description = $carte->getDescription();
+        $rs->bindParam('nom', $nom);
+        $rs->bindParam('image', $image);
         $rs->bindParam('description', $description);
+
         $rs->execute();
-		return $rs;
+        $carte->setId($pdo->lastInsertId());
+        return $rs;
     }
 
     /**
@@ -105,14 +109,16 @@ class Carte {
     {
         $sql = "UPDATE carte SET nom = :nom, image = :image, description = :description WHERE carte_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
+
         $nom = $carte->getNom();
-        $rs->bindParam('nom', $nom);
         $image = $carte->getImage();
-        $rs->bindParam('image', $image);
         $description = $carte->getDescription();
-        $rs->bindParam('description', $description);
         $id = $carte->getId();
+        $rs->bindParam('nom', $nom);
+        $rs->bindParam('image', $image);
+        $rs->bindParam('description', $description);
         $rs->bindParam('id', $id);
+
         $rs->execute();
 		return $rs;
     }
@@ -126,8 +132,10 @@ class Carte {
     {
         $sql = "DELETE FROM carte WHERE carte_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
+
         $id = $carte->getId();
         $rs->bindParam('id', $id);
+
         $rs->execute();
 		return $rs;
     }

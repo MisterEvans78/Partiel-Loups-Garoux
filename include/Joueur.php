@@ -104,24 +104,28 @@ class Joueur {
     public static function add(Joueur $joueur)
     {
         $sql = "INSERT INTO joueur(pseudo, estVivant, estMaire, estAmoureux, carte_id, Email, Mdp, partie_id) VALUES(:pseudo, :estVivant, :estMaire, :estAmoureux, :carte_id, :email, :mdp, :partie_id)";
-		$rs = PdoGsb::get_monPdo()->prepare($sql);
+        $pdo = PdoGsb::get_monPdo();
+		$rs = $pdo->prepare($sql);
+    
         $pseudo = $joueur->getPseudo();
-        $rs->bindParam('pseudo', $pseudo);
         $estVivant = $joueur->getEstVivant();
-        $rs->bindParam('estVivant', $estVivant);
         $estMaire = $joueur->getEstMaire();
-        $rs->bindParam('estMaire', $estMaire);
         $estAmoureux = $joueur->getEstAmoureux();
-        $rs->bindParam('estAmoureux', $estAmoureux);
         $carte_id = $joueur->getCarte()->getId();
-        $rs->bindParam('carte_id', $carte_id);
         $email = $joueur->getEmail();
-        $rs->bindParam('email', $email);
         $mdp = $joueur->getMdp();
-        $rs->bindParam('mdp', $mdp);
         $partie_id = $joueur->getPartie()->getId();
+        $rs->bindParam('pseudo', $pseudo);
+        $rs->bindParam('estVivant', $estVivant);
+        $rs->bindParam('estMaire', $estMaire);
+        $rs->bindParam('estAmoureux', $estAmoureux);
+        $rs->bindParam('carte_id', $carte_id);
+        $rs->bindParam('email', $email);
+        $rs->bindParam('mdp', $mdp);
         $rs->bindParam('partie_id', $partie_id);
+
         $rs->execute();
+        $joueur->setId($pdo->lastInsertId());
 		return $rs;
     }
 
@@ -134,24 +138,26 @@ class Joueur {
     {
         $sql = "UPDATE joueur SET pseudo = :pseudo, estVivant = :estVivant, estMaire = :estMaire, estAmoureux = :estAmoureux, carte_id = :carte_id, Email = :email, Mdp = :mdp, partie_id = :partie_id WHERE joueur_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
+
         $pseudo = $joueur->getPseudo();
-        $rs->bindParam('pseudo', $pseudo);
         $estVivant = $joueur->getEstVivant();
-        $rs->bindParam('estVivant', $estVivant);
         $estMaire = $joueur->getEstMaire();
-        $rs->bindParam('estMaire', $estMaire);
         $estAmoureux = $joueur->getEstAmoureux();
-        $rs->bindParam('estAmoureux', $estAmoureux);
         $carte_id = $joueur->getCarte()->getId();
-        $rs->bindParam('carte_id', $carte_id);
         $email = $joueur->getEmail();
-        $rs->bindParam('email', $email);
         $mdp = $joueur->getMdp();
-        $rs->bindParam('mdp', $mdp);
         $id = $joueur->getId();
-        $rs->bindParam('id', $id);
         $partie_id = $joueur->getPartie()->getId();
+        $rs->bindParam('pseudo', $pseudo);
+        $rs->bindParam('estVivant', $estVivant);
+        $rs->bindParam('estMaire', $estMaire);
+        $rs->bindParam('estAmoureux', $estAmoureux);
+        $rs->bindParam('carte_id', $carte_id);
+        $rs->bindParam('email', $email);
+        $rs->bindParam('mdp', $mdp);
+        $rs->bindParam('id', $id);
         $rs->bindParam('partie_id', $partie_id);
+
         $rs->execute();
 		return $rs;
     }
@@ -165,8 +171,10 @@ class Joueur {
     {
         $sql = "DELETE FROM joueur WHERE joueur_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
+
         $id = $joueur->getId();
         $rs->bindParam('id', $id);
+
         $rs->execute();
 		return $rs;
     }
