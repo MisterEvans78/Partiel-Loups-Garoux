@@ -222,7 +222,7 @@ class Partie {
         return $results;
     }
 
-    public static function nbJoeurPartie($idPartie){
+    public static function nbJoueurPartie($idPartie){
         $sql=" SELECT COUNT(*) FROM joueur WHERE partie_id=$idPartie";
         $rs = PdoGsb::get_monPdo()->query($sql);
         $results = $rs->fetch();
