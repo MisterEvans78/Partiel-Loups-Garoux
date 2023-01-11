@@ -5,4 +5,4 @@
 - CHARBONNIER Tony
 - BIRRAUX Aurélie
 - LEPIE Loic
-- MATOS Kévin
+- MATOS Kevin
