@@ -1,16 +1,16 @@
-﻿<div id="contenu">
-      <h2>Identification utilisateur</h2>
-      <form method="POST" action="index.php?uc=connexion&action=valideConnexion">
-            <p>
-            <label for="nom">Pseudo*</label>
-            <input id="pseudo" type="text" name="pseudo" size="30" maxlength="45">
-            </p>
-            <p>
-                <label for="mdp">Mot de passe*</label>
-                <input id="mdp" type="password" name="mdp" size="30" maxlength="45">
-            </p>
-            <input type="submit" value="Valider" name="valider">
-            <input type="reset" value="Annuler" name="annuler">
-            </p>
-      </form>
+﻿<div class="container mt-5" id="contenu">
+	<h2>Identification utilisateur</h2>
+	<form method="POST" action="index.php?uc=connexion&action=valideConnexion">
+		<p>
+			<label for="nom" class="form-label">Pseudo*</label>
+			<input class="form-control" id="pseudo" type="text" name="pseudo" size="30" maxlength="45" onInput="verifChampsLogin()" required>
+		</p>
+		<p>
+			<label for="mdp" class="form-label">Mot de passe*</label>
+			<input class="form-control" id="mdp" type="password" name="mdp" size="30" maxlength="45" onInput="verifChampsLogin()" required>
+		</p>
+		<input class="btn btn-primary" id="LoginBuValidate" type="submit" value="Valider" name="valider" disabled>
+		<input class="btn btn-secondary" type="reset" value="Annuler" name="annuler">
+		</p>
+	</form>
 </div>

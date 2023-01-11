@@ -34,3 +34,14 @@ function verifChampsRempInc(){
         
     }
 }
+
+function verifChampsLogin() {
+    var mdp = document.getElementById("mdp").value.length;
+    var pseudo = document.getElementById("pseudo").value.length;
+
+    if(mdp!=0 && pseudo!=0){
+        $("#LoginBuValidate").removeAttr("disabled");
+    }else{
+        $("#LoginBuValidate").attr("disabled", 'disabled')
+    }
+}

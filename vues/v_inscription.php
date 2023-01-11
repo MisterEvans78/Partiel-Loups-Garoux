@@ -23,8 +23,8 @@
       <label for="rgpd">J'accepte le traitement de mes données.*</label>
     </p>
     <div id="warningBis"></div>
-    <input id="IscBuValidate" type="submit" value="Valider" name="valider" disabled>
-    <input type="reset" value="Annuler" name="annuler">
+    <input class="btn btn-primary" id="IscBuValidate" type="submit" value="Valider" name="valider" disabled>
+    <input class="btn btn-secondary" type="reset" value="Annuler" name="annuler">
     </p>
   </form>
 </div>
