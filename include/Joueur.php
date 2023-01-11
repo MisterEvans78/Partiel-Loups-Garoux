@@ -75,7 +75,8 @@ class Joueur {
         $this->Mdp = $Mdp;
     }
 
-    public static function getJoueurById($id) {
+    public static function getJoueurById($id) : Joueur
+    {
         $sql = "SELECT * FROM joueur WHERE joueur_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
         $rs->setFetchMode(PDO::FETCH_CLASS, 'Joueur');
