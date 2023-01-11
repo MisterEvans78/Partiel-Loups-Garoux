@@ -50,7 +50,8 @@ class Joueur {
         $this->estAmoureux = $estAmoureux;
     }
 
-    public function getCarte() {
+    public function getCarte() : Carte
+    {
         return Carte::getCarteById($this->carte_id);
     }
 
@@ -112,14 +113,16 @@ class Joueur {
     }
 
     /**
-     * Modifier le joueur dans la base de données (NE MODIFIE NI LE PSEUDO NI L'EMAIL)
+     * Modifier le joueur dans la base de données
      * @param Joueur $joueur
      * @return PDOStatement|bool
      */
     public static function update(Joueur $joueur)
     {
-        $sql = "UPDATE joueur SET estVivant = :estVivant, estMaire = :estMaire, estAmoureux = :estAmoureux, carte_id = :carte_id, Mdp = :mdp";
+        $sql = "UPDATE joueur SET pseudo = :pseudo, estVivant = :estVivant, estMaire = :estMaire, estAmoureux = :estAmoureux, carte_id = :carte_id, Email = :email, Mdp = :mdp WHERE joueur_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
+        $pseudo = $joueur->getPseudo();
+        $rs->bindParam('pseudo', $pseudo);
         $estVivant = $joueur->getEstVivant();
         $rs->bindParam('estVivant', $estVivant);
         $estMaire = $joueur->getEstMaire();
@@ -129,7 +132,11 @@ class Joueur {
         $carte_id = $joueur->getCarte()->getId();
         $rs->bindParam('carte_id', $carte_id);
         $email = $joueur->getEmail();
+        $rs->bindParam('email', $email);
+        $mdp = $joueur->getMdp();
         $rs->bindParam('mdp', $mdp);
+        $id = $joueur->getId();
+        $rs->bindParam('id', $id);
         $rs->execute();
 		return $rs;
     }

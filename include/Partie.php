@@ -2,11 +2,20 @@
 include("include/Erreur.php");
 
 class Partie {
+    private int $partie_id;
     private $joueurs = [];
     private int $nbNuit;
     private int $joueurMin = 6;
     private int $joueurMax = 18;
     private int $timer = 0;
+
+    public function getId() {
+        return $this->partie_id;
+    }
+
+    public function setId($id) {
+        $this->partie_id = $id;
+    }
 
     public function getJoueurs() {
         return $this->joueurs;
@@ -79,5 +88,16 @@ class Partie {
     public function finDePartie() {
         $this->setNbNuit(0);
         $this->joueurs = [];
+    }
+
+    public static function getPartieById($id) : Partie
+    {
+        $sql = "SELECT * FROM partie WHERE partie_id = :id";
+		$rs = PdoGsb::get_monPdo()->prepare($sql);
+        $rs->setFetchMode(PDO::FETCH_CLASS, 'Partie');
+        $rs->bindParam('id', $id);
+        $rs->execute();
+        $result = $rs->fetch();
+		return $result;
     }
 }
