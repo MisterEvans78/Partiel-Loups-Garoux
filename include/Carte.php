@@ -80,9 +80,9 @@ class Carte {
     /**
      * Ajouter la carte dans la base de données
      * @param Carte $carte
-     * @return int
+     * @return PDOStatement|bool
      */
-    public static function add(Carte $carte) : int
+    public static function add(Carte $carte)
     {
         $sql = "INSERT INTO carte(nom, image, description) VALUES(:nom, :image, :description)";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
@@ -99,9 +99,9 @@ class Carte {
     /**
      * Modifier la carte dans la base de données
      * @param Carte $carte
-     * @return int
+     * @return PDOStatement|bool
      */
-    public static function update(Carte $carte) : int
+    public static function update(Carte $carte)
     {
         $sql = "UPDATE carte SET nom = :nom, image = :image, description = :description WHERE carte_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
@@ -120,9 +120,9 @@ class Carte {
     /**
      * Supprimer la carte dans la base de données
      * @param Carte $carte
-     * @return int
+     * @return PDOStatement|bool
      */
-    public static function delete(Carte $carte) : int
+    public static function delete(Carte $carte)
     {
         $sql = "DELETE FROM carte WHERE carte_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
