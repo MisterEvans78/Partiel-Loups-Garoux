@@ -19,26 +19,43 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="index.php?uc=accueil">Home</a>
+                <a class="nav-link active" aria-current="page" href="index.php?uc=accueil">Accueil</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Features</a>
+                <a class="nav-link" href="index.php?uc=partie&action=voirParties">Jouer</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">Pricing</a>
+                <a class="nav-link" href="index.php?uc=partie&action=PartieInProgress">Test</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link disabled">Disabled</a>
+                <a class="nav-link" href="#">Historique Partie</a>
               </li>
             </ul>
-            <ul class="navbar-nav ms-auto">
-             <li class="nav-item ms-auto">
-                <a class="nav-link" href="index.php?uc=connexion&action=connexion">Connexion</a>
+            <?php            
+              if ($estConnecte == true) {
+                ?>
+                <ul class="navbar-nav ms-auto">
+                  <li class="nav-item ms-auto">
+                      <a class="nav-link" href="index.php?uc=connexion&action=deconnexion">Deconnexion</a>
+                    </li>
+                  <li class="nav-item">
+                  <a class="nav-link disabled">Mon profil</a>
               </li>
-              <li class="nav-item ms-auto">
-                <a class="nav-link" href="index.php?uc=connexion&action=inscription">Inscription</a>
-              </li>
-            </ul>
+                  </ul>
+                <?php
+              } else {
+                ?>
+                 <ul class="navbar-nav ms-auto">
+                  <li class="nav-item ms-auto">
+                      <a class="nav-link" href="index.php?uc=connexion&action=connexion">Connexion</a>
+                    </li>
+                    <li class="nav-item ms-auto">
+                      <a class="nav-link" href="index.php?uc=connexion&action=inscription">Inscription</a>
+                    </li>
+                  </ul>
+                <?php
+              }
+            ?>
           </div>
         </div>
       </nav>

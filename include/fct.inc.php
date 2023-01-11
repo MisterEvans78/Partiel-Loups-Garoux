@@ -1,18 +1,21 @@
 ﻿<?php
 
 /** 
- * Fonctions pour l'application GSB
- 
  * @package default
- * @author Cheri Bibi
  * @version    1.0
  */
  /**
  * Teste si un quelconque visiteur est connecté
- * @return vrai ou faux 
+ * @return bool
  */
 function estConnecte(){
-  return isset($_SESSION['idVisiteur']);
+  if (isset($_SESSION['id'])) {
+	return true;
+	
+  }
+  else{
+	return false;
+  }
 }
 /**
  * Enregistre dans une variable session les infos d'un visiteur
@@ -21,11 +24,12 @@ function estConnecte(){
  * @param $nom
  * @param $prenom
  */
-function connecter($id,$nom,$prenom,$type){
-	$_SESSION['idVisiteur']= $id; 
-	$_SESSION['nom']= $nom;
-	$_SESSION['prenom']= $prenom;
-	$_SESSION['type']= $type;
+function connecter($id,$pseudo,$mail,$mdp){
+	$_SESSION['id']= $id; 
+	$_SESSION['pseudo']= $pseudo;
+	$_SESSION['mail']= $mail;
+	$_SESSION['joueur']=new Joueur($id,$pseudo,$mail,$mdp);
+
 }
 
 function verifieEmailPseudo($email,$pseudo){
@@ -54,9 +58,10 @@ function confirmeInscription($pseudo,$email,$mdp){
 }
 
 function connexion($pseudo,$mdp){
-	$sql="Select id,pseudo,email,mdp From joueur where pseudo='$pseudo' AND Mdp='$mdp'";
-	$rs = PdoGsb::get_monPdo()->prepare($sql);
-	$ligne = $rs->fetch();
+	//$mdp = md5($mdp);
+	$req="Select joueur_id,pseudo,email,mdp From joueur where pseudo='$pseudo' AND Mdp='$mdp'";
+	$res = PdoGsb::get_monPdo()->query($req);
+    $ligne = $res->fetch();
 	return $ligne;
 }
 /**
@@ -64,6 +69,7 @@ function connexion($pseudo,$mdp){
  */
 function deconnecter(){
 	session_destroy();
+   
 }
 
 ?>

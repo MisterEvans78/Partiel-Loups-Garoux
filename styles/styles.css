@@ -8,12 +8,13 @@
   background-repeat: no-repeat;
   color: white;
   font-family: 'NanumGothicCoding', monospace;
+  position: relative;
 }
 
 footer {
   color: white;
   text-align: center;
-  position: fixed;
+  position: absolute;
   bottom: 0;
   width: 100%;
 }
@@ -63,6 +64,11 @@ footer {
   height: 200px;
   margin-top: 10px;
   box-shadow: black 0px 0px 10px 0px;
+}
+
+.carte-info {
+  width: 100px;
+  height: 100px;
 }
 
 .carte-carousel {
@@ -140,7 +146,8 @@ footer {
   text-align: center;
 }
 
-.chat {
-  bottom: 0;
-  height: 200px;
+.corps {
+  margin-left: 100px;
+  margin-right: 100px;
+  position: relative;
 }

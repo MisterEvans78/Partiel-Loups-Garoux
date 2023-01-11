@@ -1,10 +1,9 @@
 ﻿<?php
-include("include/Erreur.php");
 
 $action = $_REQUEST['action'];
 switch($action){
 	case 'connexion':{
-			include("vues/v_connexion.php");		
+		include("vues/v_connexion.php");	
 		break;
 	}
 	case 'inscription':{
@@ -17,14 +16,18 @@ switch($action){
 		$joueur=connexion($pseudo,$mdp);
 		if(!is_array( $joueur)){
 			//ajouterErreur("Login ou mot de passe incorrect");
-			include("vues/v_erreurs.php");
+			//include("vues/v_erreurs.php");	
 			include("vues/v_connexion.php");
 		}
 		else{
-			$id = $visiteur['id'];
-			$nom =  $visiteur['nom'];
-			$prenom = $visiteur['prenom'];
+			
+			$id = $joueur['joueur_id'];
+			$pseudo =  $joueur['pseudo'];
+			$mail = $joueur["email"];
+			$mdp = $joueur["mdp"];
+			connecter($id,$pseudo,$mail,$mdp);
 			echo"Connexion réussi";
+			header('Location: index.php');	
 		}
 		break;
 	}
@@ -37,6 +40,11 @@ switch($action){
 			confirmeInscription($pseudo,$email,$mdp);
 			include("vues/v_connexion.php");	
 		}
+		break;
+	}
+	case 'deconnexion':{
+		deconnecter();
+		header('Location: index.php?uc=connexion&action=connexion');
 		break;
 	}
 }

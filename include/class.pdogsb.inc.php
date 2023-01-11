@@ -10,10 +10,10 @@
  */
 
 class PdoGsb{   		
-	private static $serveur='mysql:host=';
-	private static $bdd='dbname=';   		
-	private static $user='' ;    		
-	private static $mdp='' ;	
+	private static $serveur='mysql:host=loupgarou.mysql.database.azure.com';
+	private static $bdd='dbname=loupgarou';   		
+	private static $user='webuser' ;    		
+	private static $mdp='webuser' ;	
 	private static $monPdo;
 	private static $monPdoGsb=null;
 	/**
@@ -32,7 +32,7 @@ class PdoGsb{
 	 
 	* Appel : $instancePdoGsb = PdoGsb::getPdoGsb();
 	
-	* @return l'unique objet de la classe PdoGsb
+	* return l'unique objet de la classe PdoGsb
 	*/
 	public  static function getPdoGsb(){
 		if(PdoGsb::$monPdoGsb==null){
@@ -49,7 +49,7 @@ class PdoGsb{
 	 
 	* @param $login 
 	* @param $mdp
-	* @return l'id, le nom et le prénom sous la forme d'un tableau associatif 
+	* return  l'id, le nom et le prénom sous la forme d'un tableau associatif 
 	*/
 	public function getInfosVisiteur($login, $mdp){
 		$req = "select visiteur.id as id, visiteur.nom as nom, visiteur.prenom as prenom, User_Type as type from visiteur 

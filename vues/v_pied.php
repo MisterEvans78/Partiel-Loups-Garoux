@@ -1,6 +1,6 @@
 
   <!-- Division pour le pied de page -->
-  <footer>
+  <footer class="bg-dark">
     <div class="container">
       <div class="row">
         <div class="col-md-12">
