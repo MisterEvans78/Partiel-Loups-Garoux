@@ -23,6 +23,11 @@ CREATE TABLE IF NOT EXISTS Chats(
 CREATE TABLE IF NOT EXISTS Partie(
    partie_id INT NOT NULL AUTO_INCREMENT,
    nbNuit INT,
+   estTerminer INT,
+   estCommencer INT,
+   nbJoueursMax INT,
+   Pays VARCHAR(50),
+   nomPartie VARCHAR(50),
    PRIMARY KEY(partie_id)
 );
 
@@ -35,10 +40,12 @@ CREATE TABLE IF NOT EXISTS Joueur(
    carte_id INT,
    Email VARCHAR(255),
    Mdp VARCHAR(255),
+   partie_id INT,
    UNIQUE KEY pseudo (pseudo),
    UNIQUE KEY Email (Email),
    PRIMARY KEY(joueur_id),
-   FOREIGN KEY(carte_id) REFERENCES Carte(carte_id)
+   FOREIGN KEY(carte_id) REFERENCES Carte(carte_id),
+   FOREIGN KEY(partie_id) REFERENCES Partie(partie_id)
 );
 
 CREATE TABLE IF NOT EXISTS Vote(
