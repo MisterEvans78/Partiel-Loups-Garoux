@@ -78,7 +78,7 @@ class Carte {
     }
 
     /**
-     * Ajouter la carte dans la base de données
+     * Ajouter la carte dans la base de données.
      * @param Carte $carte
      * @return PDOStatement|bool
      */
@@ -97,7 +97,7 @@ class Carte {
     }
 
     /**
-     * Modifier la carte dans la base de données
+     * Modifier la carte dans la base de données.
      * @param Carte $carte
      * @return PDOStatement|bool
      */
@@ -118,7 +118,7 @@ class Carte {
     }
 
     /**
-     * Supprimer la carte dans la base de données
+     * Supprimer la carte dans la base de données.
      * @param Carte $carte
      * @return PDOStatement|bool
      */

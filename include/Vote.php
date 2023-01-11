@@ -53,7 +53,7 @@ class Vote {
     }
 
     /**
-     * Ajouter le vote dans la base de données
+     * Ajouter le vote dans la base de données.
      * @param Vote $vote
      * @return PDOStatement|bool
      */
@@ -72,7 +72,7 @@ class Vote {
     }
 
     /**
-     * Modifier le vote dans la base de données
+     * Modifier le vote dans la base de données.
      * @param Vote $vote
      * @return PDOStatement|bool
      */
@@ -93,7 +93,7 @@ class Vote {
     }
 
     /**
-     * Supprimer le vote dans la base de données
+     * Supprimer le vote dans la base de données.
      * @param Vote $vote
      * @return PDOStatement|bool
      */

@@ -1,6 +1,4 @@
 <?php
-include("include/Erreur.php");
-
 class Partie {
     private int $partie_id;
     private $joueurs = [];
@@ -63,7 +61,7 @@ class Partie {
         if (!$this->partiePleine()) {
             $this->joueurs[] = $joueur;
         } else {
-            ajouterErreur("La partie que vous essayiez de rejoindre est pleine");
+           // ajouterErreur("La partie que vous essayiez de rejoindre est pleine");
         }
     }
 
@@ -99,5 +97,49 @@ class Partie {
         $rs->execute();
         $result = $rs->fetch();
 		return $result;
+    }
+
+    /**
+     * Ajouter la partie dans la base de données.
+     * @param Partie $partie
+     * @return PDOStatement|bool
+     */
+    public static function add(Partie $partie) {
+        $sql = "INSERT INTO partie(nbNuit) VALUES(:nbNuit)";
+        $rs = PdoGsb::get_monPdo()->prepare($sql);
+        $nbNuit = $partie->getNbNuit();
+        $rs->bindParam('nbNuit', $nbNuit);
+        $rs->execute();
+        return $rs;
+    }
+
+    /**
+     * Modifier la partie dans la base de données.
+     * @param Partie $partie
+     * @return PDOStatement|bool
+     */
+    public static function update(Partie $partie) {
+        $sql = "UPDATE partie SET nbNuit = :nbNuit WHERE partie_id = :id";
+        $rs = PdoGsb::get_monPdo()->prepare($sql);
+        $nbNuit = $partie->getNbNuit();
+        $rs->bindParam('nbNuit', $nbNuit);
+        $id = $partie->getId();
+        $rs->bindParam('id', $id);
+        $rs->execute();
+        return $rs;
+    }
+
+    /**
+     * Supprimer la partie dans la base de données.
+     * @param Partie $partie
+     * @return PDOStatement|bool
+     */
+    public static function delete(Partie $partie) {
+        $sql = "DELETE FROM partie WHERE partie_id = :id";
+        $rs = PdoGsb::get_monPdo()->prepare($sql);
+        $id = $partie->getId();
+        $rs->bindParam('id', $id);
+        $rs->execute();
+        return $rs;
     }
 }

@@ -87,7 +87,7 @@ class Joueur {
     }
 
     /**
-     * Ajouter le joueur dans la base de données
+     * Ajouter le joueur dans la base de données.
      * @param Joueur $joueur
      * @return PDOStatement|bool
      */
@@ -114,7 +114,7 @@ class Joueur {
     }
 
     /**
-     * Modifier le joueur dans la base de données
+     * Modifier le joueur dans la base de données.
      * @param Joueur $joueur
      * @return PDOStatement|bool
      */
@@ -143,7 +143,7 @@ class Joueur {
     }
 
     /**
-     * Supprimer le joueur dans la base de données
+     * Supprimer le joueur dans la base de données.
      * @param Joueur $joueur
      * @return PDOStatement|bool
      */
