@@ -29,8 +29,6 @@ switch($action){
         include("vues/v_salonPartie.php");
         $_SESSION['joueur']->setPartie_id($partie->getId());
         echo $_SESSION['joueur']->getPartie_id();
-        echo var_dump($_SESSION['joueur']);
-
         Joueur::update($_SESSION['joueur']);
         break;
     }
