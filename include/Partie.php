@@ -2,15 +2,21 @@
 class Partie {
     private int $partie_id;
     private int $nbNuit = 0;
-    private int $nbJoueurs;
+    private int $nbJoueursMax;
     private ?bool $estTerminer;
     private ?bool $estCommencer;
-    private ?int $nbJoueursMin = 6;
-    private ?int $nbJoueursMax = 18;
     private ?string $Pays;
     private ?string $nomPartie;
-    private $joueurs = [];
+    private  $joueurs = [];
     private int $timer = 0;
+
+    public function getnbJoueursMax() {
+        return $this->nbJoueursMax;
+    }
+
+    public function setnbJoueursMax($nbJoueursMax) {
+        $this->nbJoueursMax = $nbJoueursMax;
+    }
 
     public function getId() {
         return $this->partie_id;
@@ -48,12 +54,8 @@ class Partie {
         return $this->joueurs;
     }
 
-    public function getJoueurMin() {
-        return $this->nbJoueursMin;
-    }
-
-    public function getJoueurMax() {
-        return $this->nbJoueursMax;
+    public function addJoueurs(Joueur $joueurs) {
+        $this->joueurs[] = $joueurs;
     }
 
     public function getPays() {
@@ -80,18 +82,22 @@ class Partie {
         $this->timer = $timer;
     }
 
-    public function __construct($nbJoueursMax, $pays, $nomPartie) {
-        $this->estTerminer=False;
-        $this->estCommencer=False;
-        $this->nbJoueurs=$nbJoueursMax;
-        $this->Pays=$pays;
-        $this->nomPartie=$nomPartie;
+    // On utilise ici une fonction newPartie au lieu du __construct
+    // car PDO n'utilise pas le constructeur et ça créer une erreur comme quoi il manque des paramètres dans le constructeur
+    // https://stackoverflow.com/questions/1699796/best-way-to-do-multiple-constructors-in-php
+    public static function newPartie($nbJoueursMax, $pays, $nomPartie) : Partie
+    {
+        $instance = new self;
+        $instance->estTerminer=False;
+        $instance->estCommencer=False;
+        $instance->nbJoueursMax=$nbJoueursMax;
+        $instance->Pays=$pays;
+        $instance->nomPartie=$nomPartie;
+        return $instance;
     }
 
     public function debuteLaPartie() {
-        if (count($this->joueurs) >= $this->getJoueurMin()) {
-            $this->setTimer(60);
-        }
+        $this->setTimer(60);
     }
 
     /**
@@ -118,7 +124,7 @@ class Partie {
      * @return bool
      */
     public function partiePleine() {
-        return count($this->joueurs) >= $this->getJoueurMax();
+        return count($this->joueurs) >= $this->getnbJoueursMax();
     }
 
     /**
@@ -159,7 +165,7 @@ class Partie {
         $nbNuit = $partie->getNbNuit();
         $estTerminer = $partie->getEstTerminer();
         $estCommencer = $partie->getEstCommencer();
-        $nbJoueursMax = $partie->getJoueurMax();
+        $nbJoueursMax = $partie->getnbJoueursMax();
         $pays = $partie->getPays();
         $nomPartie = $partie->getNomPartie();
         $rs->bindParam('nbNuit', $nbNuit);
@@ -186,7 +192,7 @@ class Partie {
         $nbNuit = $partie->getNbNuit();
         $estTerminer = $partie->getEstTerminer();
         $estCommencer = $partie->getEstCommencer();
-        $nbJoueursMax = $partie->getJoueurMax();
+        $nbJoueursMax = $partie->getnbJoueursMax();
         $pays = $partie->getPays();
         $nomPartie = $partie->getNomPartie();
         $id = $partie->getId();
@@ -225,7 +231,7 @@ class Partie {
      */
     public static function getJoueursInPartie(Partie $partie) : array
     {
-        $sql = "SELECT * FROM joueur WHERE partie_id = :id";
+        $sql = "SELECT joueur_id, pseudo FROM joueur WHERE partie_id = :id";
         $rs = PdoGsb::get_monPdo()->prepare($sql);
         $rs->setFetchMode(PDO::FETCH_CLASS, 'Joueur');
         $id = $partie->getId();

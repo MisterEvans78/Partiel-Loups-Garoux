@@ -28,5 +28,5 @@ switch($uc){
 		break;
 	}
 }
-include("vues/v_pied.php") ;
+//include("vues/v_pied.php") ;
 ?>

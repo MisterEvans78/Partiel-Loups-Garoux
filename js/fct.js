@@ -45,3 +45,26 @@ function verifChampsLogin() {
         $("#LoginBuValidate").attr("disabled", 'disabled')
     }
 }
+
+const message = document.getElementById('message');
+const send = document.getElementById('send');
+
+const chatZone = document.getElementById('chat-zone');
+
+message.addEventListener('keyup', function(event){
+    if(event.keyCode === 13) {
+        event.preventDefault();
+        sendMessage();
+    }
+});
+
+function sendMessage() {
+    if (message.value == "") {
+        // Message d'erreur
+        return;
+    }
+    const newMessage = document.createElement('p');
+    newMessage.innerText = message.value;
+    chatZone.appendChild(newMessage);
+    message.value = "";
+}

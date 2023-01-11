@@ -11,15 +11,20 @@ class Joueur {
     private string $Mdp;
     private ?int $partie_id = null;
 
-    public function __construct($id, $pseudo, $email,$mdp) {
-        $this->joueur_id=$id;
-        $this->pseudo=$pseudo;
-        $this->Email=$email;
-        $this->Mdp=$mdp;
-        $this-> estMaire=null;
-        $this-> estVivant=null;
-        $this-> estAmoureux=null;
-        $this-> carte_id=null;
+    // On utilise ici une fonction newJoueur au lieu du __construct
+    // car PDO n'utilise pas le constructeur et ça créer une erreur comme quoi il manque des paramètres dans le constructeur
+    // https://stackoverflow.com/questions/1699796/best-way-to-do-multiple-constructors-in-php
+    public static function NewJoueur($id, $pseudo, $email,$mdp) {
+        $instance = new self;
+        $instance->joueur_id=$id;
+        $instance->pseudo=$pseudo;
+        $instance->Email=$email;
+        $instance->Mdp=$mdp;
+        $instance-> estMaire=null;
+        $instance-> estVivant=null;
+        $instance-> estAmoureux=null;
+        $instance-> carte_id=null;
+        return $instance;
     }
     public function getcarte_id() {
         return $this->carte_id;

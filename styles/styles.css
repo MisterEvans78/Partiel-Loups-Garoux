@@ -14,7 +14,6 @@
 footer {
   color: white;
   text-align: center;
-  position: absolute;
   bottom: 0;
   width: 100%;
 }
@@ -69,6 +68,11 @@ footer {
 .carte-info {
   width: 100px;
   height: 100px;
+}
+
+.carte-joueur {
+  height: 100px;
+  width: 100px;
 }
 
 .carte-carousel {
@@ -146,8 +150,59 @@ footer {
   text-align: center;
 }
 
+.container-chat {
+  width: 100%;
+  height: 100%;
+}
+
 .corps {
   margin-left: 100px;
   margin-right: 100px;
+  height: 100%;
   position: relative;
+}
+
+.haut {
+  margin-top: 10px;
+  height: auto;
+  position: absolute;
+  top: 0;
+}
+
+.bas {
+  width: 100%;
+  height: 200px;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+.chat {
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  position: relative;
+}
+
+#chat-zone {
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.chat-footer {
+  bottom: 0;
+  width: 100%;
+  position: absolute;
+}
+
+.infos-joueur {
+  float: left;
+}
+
+.liste-joueurs {
+  float: right;
 }

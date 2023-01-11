@@ -3,31 +3,45 @@
         <div class="haut">
             <div class="row">
                 <div class="col-4">
-                <div class="infos-joueur">
-                    <div class="card" style="width: 18rem;">
-                        <h5 class="card-title">MES INFOS</h5>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-6">
-                                    <p>Mon rôle :</p>
-                                    <p>Voyante</p>
-                                </div>
-                                <div class="col-6">
-                                    <img class="carte-info" src="images/voyante.jpg" alt="Voyante">
+                    <div class="infos-joueur mt-5">
+                        <div class="card" style="width: 18rem;">
+                            <h5 class="card-title">MES INFOS</h5>
+                            <div class="card-body">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <p>Mon rôle :</p>
+                                        <p>Voyante</p>
+                                    </div>
+                                    <div class="col-6">
+                                        <img class="carte-info" src="images/voyante.jpg" alt="Voyante">
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-8">
-                    
+                    <div class="liste-joueurs">
+                        <div class="row">
+                            <?php
+                                $getJoueursInPartie = ["Jean", "Pierre", "Paul", "Test", "Michel", "Polo", "Benj", "Abdul"];
+                                foreach ($getJoueursInPartie as $joueur) {
+                                    echo "<div class='col-3 mt-5'>";
+                                    echo "<img class='carte-joueur' src='images/dos_carte.png' alt='dos carte'>";
+                                    echo "</div>";
+                                }
+                            ?>
+                        </div>
+                    </div>
+                </div>
                 </div>
             </div>
         </div>
         <div class="bas">
             <div class="chat">
+                <div id="chat-zone"></div>
                 <div class="chat-footer">
-                    <input type="text" placeholder="Que voulez-vous dire ?" class="form-control">
+                    <input id="message" type="text" placeholder="Que voulez-vous dire ?" class="form-control">
                 </div>
             </div>
         </div>

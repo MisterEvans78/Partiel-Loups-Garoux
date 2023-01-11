@@ -28,7 +28,7 @@ function connecter($id,$pseudo,$mail,$mdp){
 	$_SESSION['id']= $id; 
 	$_SESSION['pseudo']= $pseudo;
 	$_SESSION['mail']= $mail;
-	$_SESSION['joueur']=new Joueur($id,$pseudo,$mail,$mdp);
+	$_SESSION['joueur']=Joueur::NewJoueur($id,$pseudo,$mail,$mdp);
 
 }
 
