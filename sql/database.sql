@@ -19,6 +19,10 @@ CREATE TABLE IF NOT EXISTS Joueur(
    estMaire BIT,
    estAmoureux BIT,
    carte_id INT,
+   Email VARCHAR(255),
+   Mdp VARCHAR(255),
+   UNIQUE KEY pseudo (pseudo),
+   UNIQUE KEY Email (Email),
    PRIMARY KEY(joueur_id),
    FOREIGN KEY(carte_id) REFERENCES Carte(carte_id)
 );
