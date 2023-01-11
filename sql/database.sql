@@ -31,14 +31,6 @@ CREATE TABLE IF NOT EXISTS Joueur(
    FOREIGN KEY(carte_id) REFERENCES Carte(carte_id)
 );
 
-CREATE TABLE IF NOT EXISTS Joueur_Partie(
-   joueur_id INT NOT NULL,
-   partie_id INT NOT NULL,
-   PRIMARY KEY(joueur_id, partie_id),
-   FOREIGN KEY(joueur_id) REFERENCES Joueur(joueur_id),
-   FOREIGN KEY(partie_id) REFERENCES Partie(partie_id)
-);
-
 CREATE TABLE IF NOT EXISTS Vote(
    vote_id INT NOT NULL AUTO_INCREMENT,
    joueur_id INT NOT NULL,
