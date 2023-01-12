@@ -1,5 +1,5 @@
 ﻿<div class="container mt-5" id="contenu">
-	<h2>Identification utilisateur</h2>
+	<h1 class="title">Connexion</h1>
 	<form method="POST" action="index.php?uc=connexion&action=valideConnexion">
 		<p>
 			<label for="nom" class="form-label">Pseudo*</label>
