@@ -24,8 +24,8 @@ CREATE TABLE IF NOT EXISTS Chats(
 CREATE TABLE IF NOT EXISTS Partie(
    partie_id INT NOT NULL AUTO_INCREMENT,
    nbNuit INT,
-   estTerminer INT,
-   estCommencer INT,
+   estTerminer TINYINT,
+   estCommencer TINYINT,
    nbJoueursMax INT,
    Pays VARCHAR(50),
    nomPartie VARCHAR(50),
@@ -35,9 +35,9 @@ CREATE TABLE IF NOT EXISTS Partie(
 CREATE TABLE IF NOT EXISTS Joueur(
    joueur_id INT NOT NULL AUTO_INCREMENT,
    pseudo VARCHAR(255) NOT NULL,
-   estVivant BIT,
-   estMaire BIT,
-   estAmoureux BIT,
+   estVivant TINYINT,
+   estMaire TINYINT,
+   estAmoureux TINYINT,
    carte_id INT,
    Email VARCHAR(255),
    Mdp VARCHAR(255),

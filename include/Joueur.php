@@ -3,9 +3,9 @@
 class Joueur {
     private int $joueur_id;
     private string $pseudo;
-    private ?bool $estVivant;
-    private ?bool $estMaire;
-    private ?bool $estAmoureux;
+    private $estVivant;
+    private $estMaire;
+    private $estAmoureux;
     private ?int $carte_id;
     private ?string $Email;
     private string $Mdp;
