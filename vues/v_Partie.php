@@ -24,11 +24,10 @@
                     <div class="liste-joueurs">
                         <div class="row">
                             <?php
-                                $getJoueursInPartie = ["Jean", "Pierre", "Paul", "Test", "Michel", "Polo", "Benj", "Abdul"];
                                 foreach ($getJoueursInPartie as $joueur) {
                                     echo "<div class='col-3 mt-5'>";
                                     echo "<img class='carte-joueur' src='images/dos_carte.png' alt='dos carte'>";
-                                    echo "<p class='nom-joueur'>$joueur</p>";
+                                    echo "<p class='nom-joueur'>" . $joueur->getPseudo()." "  ."</p>";
                                     echo "</div>";
                                 }
                             ?>

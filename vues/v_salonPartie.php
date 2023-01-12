@@ -4,8 +4,10 @@
     <div class="row fond-regle">
         <?php
             if($partie->getHost()->getId() == $_SESSION['joueur']->getId()){
+                $data = Partie::getJoueursInPartie($partie);
+                $convert_to_string = http_build_query($data);
                 ?>
-                    <a class="btn btn-primary" href="index.php?&uc=partie&action=PartieInProgress&idPartie=<?=$partie->getId()?>&idJoueur=<?=$_SESSION['joueur']->getId()?>&idCarteJoueur=<?=$_SESSION['joueur']->getcarte_id()?>">Commencer la partie</a>
+                    <a id="commencer" class="btn btn-primary" href="index.php?&uc=partie&action=PartieInProgress&idPartie=<?=$partie->getId()?>&getJoueursInPartie=<?= $convert_to_string ?>">Commencer la partie</a>
                 <?php
             }
             
@@ -43,21 +45,37 @@
 setInterval(function(){
     nbSeconde++
     $.ajax({
-        
-    type: "GET",
-    url: "index.php?&uc=partie&action=getJoueursSalon&idRoom="+idRoom+"&sec="+nbSeconde+"&fluxAjax=oui",
-    timeout: 2000,
-    success: function(data) {
-        salonTabJoueur(data);
+        type: "GET",
+        url: "index.php?&uc=partie&action=getJoueursSalon&idRoom="+idRoom+"&sec="+nbSeconde+"&fluxAjax=oui",
+        timeout: 2000,
+        success: function(data) {
+            salonTabJoueur(data);
+        },
+        error: function(xhr, status, error) {
+            if(status==="timeout") {
+            console.log("request timed out");
+            }
+        }
+    });
 
-    },
-    error: function(xhr, status, error) {
-    if(status==="timeout") {
-       console.log("request timed out");
-    }
-}
-});
+
 }, 4000);
+
+$("#commencer").on("click", function() {
+    $.ajax({
+        type: "GET",
+        url: "index.php?&uc=partie&action=PartieInProgress&fluxAjax=oui",
+        timeout: 2000,
+        success: function(data) {
+            window.location.href = data.redirectUrl;
+        },
+        error: function(xhr, status, error) {
+            if(status==="timeout") {
+                console.log("request timed out");
+            }
+        }
+    });
+});
 
 function salonTabJoueur(data){
     var $data = $(data);

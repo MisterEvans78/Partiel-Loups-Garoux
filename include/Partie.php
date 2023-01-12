@@ -139,17 +139,29 @@ class Partie {
     }
 
     /**
-     * Met fin à la partie
+     * Met fin à la partie et met à jour la partie dans la BDD
      */
-    public function finDePartie() {
+    public function TerminerLaPartie() {
         $this->estTerminer = true;
+        Partie::update($this);
     }
 
     /**
-     * Début de la partie
+     * Débute la partie et met à jour la partie dans la BDD.
      */
-    public function debutDePartie() {
-        $this->estCommencer = true;
+    public function CommencerLaPartie() {
+        $this->setEstCommencer(true);
+        Partie::update($this);
+    }
+
+    /**
+     * Vérifie si la partie à commencer.
+     * Retourne false si estCommencer est false ou null.
+     * @return bool
+     */
+    public function PartieACommencer() : bool
+    {
+        return $this->getEstCommencer() == true ? true : false;
     }
 
     /**
@@ -304,6 +316,9 @@ class Partie {
         $results = $rs->fetch();
         return $results[0];
     }
+
+   
+    
 
     
 }

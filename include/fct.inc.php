@@ -59,7 +59,7 @@ function confirmeInscription($pseudo,$email,$mdp){
 
 function connexion($pseudo,$mdp){
 	//$mdp = md5($mdp);
-	$req="Select joueur_id,pseudo,email,mdp From joueur where pseudo='$pseudo' AND Mdp='$mdp'";
+	$req="SELECT joueur_id,pseudo,email,mdp From joueur where pseudo='$pseudo' AND Mdp='$mdp'";
 	$res = PdoGsb::get_monPdo()->query($req);
     $ligne = $res->fetch();
 	return $ligne;
@@ -72,9 +72,16 @@ function deconnecter(){
    
 }
 
-function uploadMessage($message,$idJoueur,$idRoom,$date){
-	$req = "INSERT INTO chat (";
-}
+	function uploadMsg($message,$idJoueur,$idRoom,$date){
+		$sql = "INSERT INTO chats(chatUserid, chatGameid, charText) VALUES('$idJoueur','$idRoom','$message')";
+		PdoGsb::get_monPdo()->exec($sql);
+	}	
 
+	function dlMsg($idRoom){
+		$sql="SELECT pseudo, CharText,date FROM chats, joueur WHERE joueur_id=chatUserid AND chatGameid='$idRoom' ORDER BY date ASC";
+		$res = PdoGsb::get_monPdo()->query($sql);
+    	$lesLignes = $res->fetchall();
+		return $lesLignes;
+	}
 
 ?>

@@ -2,7 +2,7 @@
     <h1 class="title">Loup-garou</h1>
     <div class="row fond-regle">
         <h2 class="title_2">Règles du jeu</h2>
-        <div class="col-4 regle">
+        <div class="col-lg-4 col-md-6-sm-12 col-xs-12 regle">
             <h3 class="title_3 mt-3">Objectif</h3>
             <ul>
                 <li>Pour les villageois :</li>
@@ -15,7 +15,7 @@
             <h3 class="title_3">Joueurs</h3>
             <p>Le nombre de joueurs n'est pas limité, mais il est recommandé d'avoir au moins 7 joueurs.</p>
         </div>
-        <div class="col-4 regle">
+        <div class="col-lg-4 col-md-6-sm-12 col-xs-12 regle">
             <h3 class="title_3 mt-3">Rôles</h3>
             <p>Il y a plusieurs rôles différents dans le jeu, chacun avec ses propres capacités :</p>
             <ul>
@@ -26,7 +26,7 @@
                 <li>...</li>
             </ul>
         </div>
-        <div class="col-4 regle">
+        <div class="col-lg-4 col-md-6-sm-12 col-xs-12 regle">
             <h3 class="title_3 mt-3">Déroulement</h3>
             <p>Le jeu se déroule en plusieurs tours de jour et de nuit :</p>
             <ul>
@@ -41,7 +41,7 @@
             <h2 class="title_2">Les cartes</h2>
             <?php
             foreach ($getAllCarte as $carte) {
-                echo "<div class='col-3'>";
+                echo "<div class='col-lg-3 col-md-6-sm-12 col-xs-12'>";
                 echo "<img class='carte' src=" . $carte->getImage() . " alt=" . $carte->getNom() . " data-bs-toggle='modal' data-bs-target='#" . $carte->getId() . "'>";
                 echo "</div>";
                 echo '<div class="modal fade" id="' . $carte->getId() . '" tabindex="-1" aria-labelledby="ModalLabel-' . $carte->getNom() . '" aria-hidden="true">

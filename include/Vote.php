@@ -114,4 +114,22 @@ class Vote {
         $rs->execute();
 		return $rs;
     }
+
+    /**
+     * Compte le nombre de vote sur un joueur dans la partie
+     * @param int $id_joueur_vote
+     * @param int $id_partie
+     * @return int
+     */
+    public static function countVote(int $id_joueur_vote, int $id_partie) : int
+    {
+        $sql = "SELECT COUNT(*) FROM vote WHERE joueur_vote = :id_joueur_vote AND partie_id = :partie_id";
+        $rs = PdoGsb::get_monPdo()->prepare($sql);
+        $rs->bindParam('id_joueur_vote', $id_joueur_vote);
+        $rs->bindParam('partie_id', $id_partie);
+        $rs->execute();
+        $result = $rs->fetch();
+        return $result[0];
+    }
+    
 }

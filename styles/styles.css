@@ -61,6 +61,13 @@
 .carte-info {
   width: 100px;
   height: 100px;
+  border: black 1px solid;
+}
+
+.carte-info:hover {
+  box-shadow: rgb(255, 255, 255) 0px 0px 20px 0px;
+  transition: 0.5s;
+  transform: scale(1.1);
 }
 
 .carte-joueur {

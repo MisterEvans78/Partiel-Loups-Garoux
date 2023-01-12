@@ -11,7 +11,9 @@ session_start();
 $pdo = PdoGsb::getPdoGsb();
 $estConnecte = estConnecte();
 
-include("vues/v_entete.php");
+if(empty($_REQUEST['fluxAjax'])){
+	include("vues/v_entete.php");
+}
 
 if (!isset($_REQUEST['uc'])) {
 	$_REQUEST['uc'] = 'accueil';
@@ -39,6 +41,13 @@ switch ($uc) {
 			include("controleurs/c_partie.php");
 			break;
 		}
+	case 'message': {
+			include("controleurs/c_message.php");
+			break;
+		}
 }
-include("vues/v_pied.php");
+if(empty($_REQUEST['fluxAjax'])){
+	include("vues/v_pied.php");
+}
+
 ?>
