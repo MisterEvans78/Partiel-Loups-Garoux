@@ -3,8 +3,8 @@ class Partie {
     private int $partie_id;
     private int $nbNuit = 0;
     private int $nbJoueursMax;
-    private $estTerminer;
-    private $estCommencer;
+    private ?int $estTerminer;
+    private ?int $estCommencer;
     private ?string $Pays;
     private ?string $nomPartie;
     private ?int $hostId;
