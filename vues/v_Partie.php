@@ -10,10 +10,10 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <p>Mon rôle :</p>
-                                        <p><?php $getCarteJoueur->getNom() ?></p>
+                                        <p><?= $getCarteJoueur->getNom() ?></p>
                                     </div>
                                     <div class="col-6">
-                                        <img class="carte-info" src="<?php $getCarteJoueur->getImage() ?>" alt="<?php $getCarteJoueur->getNom() ?>">
+                                        <img class="carte-info" src="<?=$getCarteJoueur->getImage()?>" alt="<?=$getCarteJoueur->getNom() ?>">
                                     </div>
                                 </div>
                             </div>

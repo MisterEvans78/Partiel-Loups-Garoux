@@ -46,7 +46,7 @@ switch($action){
             $id_carte_joueur = $_REQUEST['idCarteJoueur'];
             $partie = Partie::getPartieById($id_partie);
             $getJoueursInPartie = Partie::getJoueursInPartie($partie);
-            $getCarteJoueur = Carte::getCarteById($id_carte_joueur);
+            $getCarteJoueur = Carte::getCarteById(random_int(1, 8));
             include("vues/v_Partie.php");
         } else {
             include("vues/v_connexion.php");
