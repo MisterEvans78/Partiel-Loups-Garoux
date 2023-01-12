@@ -181,7 +181,7 @@ class Partie {
     }
 
     /**
-     * Attribut le rôle d'hôte à un nouveau joueur après que le vrai hôte ai quitter la partie.
+     * Attribut le rôle d'hôte à un nouveau joueur après que le vrai hôte ait quitter la partie.
      */
     public function newHostAfterExit() {
         $sql = "SELECT joueur_id FROM joueur WHERE partie_id = :id";
@@ -317,6 +317,17 @@ class Partie {
         return $results[0];
     }
 
+    public static function partieEstlancer($id) : bool
+    {
+        $sql = "SELECT estCommencer FROM partie WHERE partie_id = :id";
+		$rs = PdoGsb::get_monPdo()->prepare($sql);
+        $rs->bindParam('id', $id);
+        $rs->execute();
+        $result = $rs->fetch();
+
+        // Si true retourne true, sinon retourne false même si estCommencer est null
+		return $result["estCommencer"] ? true : false;
+    }
    
     
 
