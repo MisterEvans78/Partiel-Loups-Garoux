@@ -40,8 +40,25 @@ switch($action){
         include("vues/v_Partie.php");
         break;
     }
-    case 'joinSalonWaiting':{
-
+    case 'JoinSalon':{
+        $idRoom = $_REQUEST['idRoom'];
+        $_SESSION['joueur']->setPartie_id($idRoom);
+        Joueur::update( $_SESSION['joueur']);
+        $partie = Partie::getPartieById($idRoom);
+        $getJoueursInPartie=Partie::getJoueursInPartie($partie); 
+       
+        include("vues/v_salonPartie.php");
+       break;
+    }
+    case 'getJoueursSalon':{
+        $idRoom = $_REQUEST['idRoom'];
+        $nbSeconde = $_REQUEST['Sec'];
+        echo($nbSeconde);
+        $partie = Partie::getPartieById($idRoom);
+        $getJoueursInPartie=Partie::getJoueursInPartie($partie); 
+       
+        include("vues/v_salonPartie.php");
+        break;
     }
 
 }

@@ -1,4 +1,6 @@
 <?php
+// your code here
+
 require_once("include/fct.inc.php");
 require_once("include/class.pdogsb.inc.php");
 require_once("include/Carte.php");
@@ -10,9 +12,11 @@ $pdo = PdoGsb::getPdoGsb();
 $estConnecte = estConnecte();
 
 include("vues/v_entete.php");
+
 if(!isset($_REQUEST['uc'])){
      $_REQUEST['uc'] = 'accueil';
 }	 
+
 $uc = $_REQUEST['uc'];
 switch($uc){
 	case 'accueil':{
@@ -28,5 +32,5 @@ switch($uc){
 		break;
 	}
 }
-//include("vues/v_pied.php") ;
+include("vues/v_pied.php") ;
 ?>

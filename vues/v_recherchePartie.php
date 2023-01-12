@@ -14,7 +14,7 @@
                 <?php
                     for ($i=0; $i < $nbPartie; $i++) { 
                         echo" <tr class='table-active'>";
-                        echo"<th> <a href=''> Rejoindre la partie </a> </th>";
+                        echo"<th> <a href='index.php?uc=partie&action=JoinSalon&idRoom=". $lesParties[$i][0] ."'> Rejoindre la partie </a> </th>";
                         echo"<th>".Partie::nbJoueurPartie($lesParties[$i][0]) ."/".$lesParties[$i][1] ."</th>";
                         echo"<th>".$lesParties[$i][2] ."</th>";
                         echo"<th>".$lesParties[$i][3] ."</th>";
