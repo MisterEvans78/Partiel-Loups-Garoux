@@ -46,7 +46,7 @@ switch($action){
             if($partieEstlancer) {
                 $partie = Partie::getPartieById($id_partie);
                 $getJoueursInPartie = Partie::getJoueursInPartie($partie);
-                $getCarteIdJoueur = Carte::getCarteById(random_int(1, 8));
+                $getCarteJoueur = Carte::getCarteById(random_int(1, 8));
                 include("vues/v_Partie.php");
             }
             
@@ -103,7 +103,8 @@ switch($action){
         break;
     }
 
-    case 'PartieLancer':{
+    case 'commencerPartie':{
+        $id_partie = $_REQUEST['idPartie'];
         $partie = Partie::getPartieById($id_partie);
         if (!$partie->PartieACommencer()) {
             $getJoueursInPartie = Partie::getJoueursInPartie($partie);

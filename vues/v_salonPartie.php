@@ -5,8 +5,7 @@
         <?php
             if($partie->getHost()->getId() == $_SESSION['joueur']->getId()){
                 ?>
-                    <button id="commencer" class="btn btn-primary" onclick="gameLancer()">Commencer la partie </button>
-                    
+                <a class="btn btn-primary" id="commencer">Commencer la partie </a>
                 <?php
             }
             
@@ -39,22 +38,24 @@
 <script TYPE="text/javascript">
     var tableJoueurs= document.getElementById("tableJoueurs");
     
-    let idRoom = <?php echo $partie->getId() ?>;
-    let getCarteIdJoueur = <?php echo $_SESSION['joueur']->getCarteIdJoueur() ?>;
+    let idRoom = <?=$partie->getId()?>;
     var nbSeconde=0
 
-    function gameLancer(){
-            $.ajax({
+    document.getElementById("commencer").addEventListener("click", function(){
+        $.ajax({
             type: "GET",
-            url: "index.php?&uc=partie&action=PartieLancer&fluxAjax=oui",
+            url: "index.php?&uc=partie&action=commencerPartie&fluxAjax=oui&idPartie="+idRoom,
             timeout: 2000,
+            success: function(data) {
+                console.log(data)
+            },
             error: function(xhr, status, error) {
                 if(status==="timeout") {
                 console.log("request timed out");
                 }
             }
         });
-    }
+    });
 
     ////Intervale qui ajoute des joueurs
 setInterval(function(){
@@ -80,13 +81,10 @@ setInterval(function(){
 setInterval(function(){
     $.ajax({
         type: "GET",
-        url: "index.php?&uc=partie&action=PartieInProgress&fluxAjax=oui&idPartie="+idRoom+"&getCarteIdJoueur="+getCarteIdJoueur,
+        url: "index.php?&uc=partie&action=PartieInProgress&fluxAjax=oui&idPartie="+idRoom,
         timeout: 2000,
         success: function(data) {
             console.log(data)
-            if (<?php echo $partie->getEstCommencer() ?>) {
-                window.location.href = "index.php?&uc=partie&action=PartieInProgress&idPartie="+idRoom+"&getCarteIdJoueur="+getCarteIdJoueur;
-            }
            
         },
         error: function(xhr, status, error) {
