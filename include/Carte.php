@@ -54,7 +54,7 @@ class Carte {
      */
     public static function getAllCartes() : array
     {
-        $sql = "SELECT * FROM carte";
+        $sql = "SELECT carte_id, nom, image, description FROM carte";
 		$rs = PdoGsb::get_monPdo()->query($sql);
         $rs->setFetchMode(PDO::FETCH_CLASS, 'Carte');
         $result = $rs->fetchAll();
@@ -68,7 +68,7 @@ class Carte {
      */
     public static function getCarteById($id) : Carte
     {
-        $sql = "SELECT * FROM carte WHERE carte_id = :id";
+        $sql = "SELECT carte_id, nom, image, description FROM carte WHERE carte_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
         $rs->setFetchMode(PDO::FETCH_CLASS, 'Carte');
         $rs->bindParam('id', $id);

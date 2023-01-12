@@ -143,7 +143,7 @@ class Partie {
 
     public static function getPartieById($id) : Partie
     {
-        $sql = "SELECT * FROM partie WHERE partie_id = :id";
+        $sql = "SELECT partie_id, nbNuit, estTerminer, estCommencer, nbJoueursMax, Pays, nomPartie FROM partie WHERE partie_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
         $rs->setFetchMode(PDO::FETCH_CLASS, 'Partie');
         $rs->bindParam('id', $id);

@@ -43,7 +43,7 @@ class Vote {
 
     public static function getVoteById($id) : Vote
     {
-        $sql = "SELECT * FROM vote WHERE vote_id = :id";
+        $sql = "SELECT vote_id, joueur_id, partie_id, joueur_vote FROM vote WHERE vote_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
         $rs->setFetchMode(PDO::FETCH_CLASS, 'Vote');
         $rs->bindParam('id', $id);

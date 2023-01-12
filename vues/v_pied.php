@@ -1,14 +1,6 @@
 
   <!-- Division pour le pied de page -->
-  <footer class="bg-dark">
-    <div class="container">
-      <div class="row">
-        <div class="col-md-12">
-          <p>Copyright &copy; 2023 | Loup-garou</p>
-        </div>
-      </div>
-    </div>
-  </footer>
+
   </body>
 </html>
 

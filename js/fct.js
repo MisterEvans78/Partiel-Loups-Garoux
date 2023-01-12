@@ -67,4 +67,5 @@ function sendMessage() {
     newMessage.innerText = message.value;
     chatZone.appendChild(newMessage);
     message.value = "";
+    chatZone.scrollTop = chatZone.scrollHeight;
 }

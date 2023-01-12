@@ -118,7 +118,7 @@ class Joueur {
 
     public static function getJoueurById($id) : Joueur
     {
-        $sql = "SELECT * FROM joueur WHERE joueur_id = :id";
+        $sql = "SELECT joueur_id, pseudo, estVivant, estMaire, estAmoureux, carte_id, Email, Mdp, partie_id FROM joueur WHERE joueur_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
         $rs->setFetchMode(PDO::FETCH_CLASS, 'Joueur');
         $rs->bindParam('id', $id);

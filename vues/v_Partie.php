@@ -10,10 +10,10 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <p>Mon rôle :</p>
-                                        <p>Voyante</p>
+                                        <p><?php $getCarteJoueur->getNom() ?></p>
                                     </div>
                                     <div class="col-6">
-                                        <img class="carte-info" src="images/voyante.jpg" alt="Voyante">
+                                        <img class="carte-info" src="<?php $getCarteJoueur->getImage() ?>" alt="<?php $getCarteJoueur->getNom() ?>">
                                     </div>
                                 </div>
                             </div>
@@ -34,15 +34,14 @@
                         </div>
                     </div>
                 </div>
-                </div>
             </div>
         </div>
         <div class="bas">
             <div class="chat">
                 <div id="chat-zone"></div>
-                <div class="chat-footer">
-                    <input id="message" type="text" placeholder="Que voulez-vous dire ?" class="form-control">
-                </div>
+            </div>
+            <div class="chat-footer">
+                <input id="message" type="text" placeholder="Que voulez-vous dire ?" class="form-control">
             </div>
         </div>
     </div>

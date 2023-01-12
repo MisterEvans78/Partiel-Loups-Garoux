@@ -19,45 +19,67 @@ switch($action){
         
     }
     case 'PartieSalonWaiting':{
-        $nomPartie= $_REQUEST["nPartie"];
-		$nbJoueur= $_REQUEST["nbJoueur"];
-		$pays= $_REQUEST["paysPartie"];
-        $partie= Partie::newPartie($nbJoueur,$pays,$nomPartie);
-        Partie::add($partie);
-        
-        $_SESSION['joueur']->setPartie_id($partie->getId());
-        echo $_SESSION['joueur']->getPartie_id();
-        Joueur::update($_SESSION['joueur']);
-        $partie->addJoueurs($_SESSION['joueur']);
-        $getJoueursInPartie = Partie::getJoueursInPartie($partie);
-
-        include("vues/v_salonPartie.php");
+        if(estConnecte()) {
+            $nomPartie= $_REQUEST["nPartie"];
+            $nbJoueur= $_REQUEST["nbJoueur"];
+            $pays= $_REQUEST["paysPartie"];
+            $partie= Partie::newPartie($nbJoueur,$pays,$nomPartie);
+            Partie::add($partie);
+            
+            $_SESSION['joueur']->setPartie_id($partie->getId());
+            echo $_SESSION['joueur']->getPartie_id();
+            Joueur::update($_SESSION['joueur']);
+            $partie->addJoueurs($_SESSION['joueur']);
+            $getJoueursInPartie = Partie::getJoueursInPartie($partie);
+    
+            include("vues/v_salonPartie.php");
+        } else {
+            include("vues/v_connexion.php");
+        }
         break;
     }
     case 'PartieInProgress':{
-        // $partie = Partie::getPartieById($_SESSION['joueur']->getPartie_id());
-        // $getJoueursInPartie = Partie::getJoueursInPartie($partie);
-        include("vues/v_Partie.php");
+        if (estConnecte()) {
+            $partie = Partie::getPartieById($_SESSION['joueur']->getPartie_id());
+            $getJoueursInPartie = Partie::getJoueursInPartie($partie);
+            $joueur = Joueur::getJoueurById($_SESSION['joueur']->getId());
+            $getCarteJoueur = Carte::getCarteById($joueur->getcarte_id());
+            include("vues/v_Partie.php");
+        } else {
+            include("vues/v_connexion.php");
+        }
         break;
     }
     case 'JoinSalon':{
-        $idRoom = $_REQUEST['idRoom'];
-        $_SESSION['joueur']->setPartie_id($idRoom);
-        Joueur::update( $_SESSION['joueur']);
-        $partie = Partie::getPartieById($idRoom);
-        $getJoueursInPartie=Partie::getJoueursInPartie($partie); 
-       
-        include("vues/v_salonPartie.php");
+        if (estConnecte()) {
+            $idRoom = $_REQUEST['idRoom'];
+            $_SESSION['joueur']->setPartie_id($idRoom);
+            Joueur::update( $_SESSION['joueur']);
+            $partie = Partie::getPartieById($idRoom);
+            $getJoueursInPartie=Partie::getJoueursInPartie($partie); 
+           
+            include("vues/v_salonPartie.php");
+        } else {
+            include("vues/v_connexion.php");
+        }
        break;
     }
     case 'getJoueursSalon':{
         $idRoom = $_REQUEST['idRoom'];
-        $nbSeconde = $_REQUEST['Sec'];
+        $nbSeconde = $_REQUEST['sec'];
         echo($nbSeconde);
         $partie = Partie::getPartieById($idRoom);
         $getJoueursInPartie=Partie::getJoueursInPartie($partie); 
-       
-        include("vues/v_salonPartie.php");
+        $countJ= count($getJoueursInPartie);
+            for ($i=0; $i <$countJ; $i++) { 
+              //  if ($i==0) {echo "<tbody id='tableJoueurs'>" ;}
+                echo" <tr class='table-active' id='tableJ'>";
+                echo"<th> ". $i+1  ."/".  $partie->getnbJoueursMax() ."</th>";
+                echo"<th>". $getJoueursInPartie[$i]->getPseudo() ."</th>";
+                echo"</tr> ";
+                //if ($i==$countJ-1) {echo "</tbody>" ;}
+            }
+                
         break;
     }
 
