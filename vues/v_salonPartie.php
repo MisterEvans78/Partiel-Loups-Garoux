@@ -84,8 +84,7 @@ setInterval(function(){
         url: "index.php?&uc=partie&action=PartieInProgress&fluxAjax=oui&idPartie="+idRoom,
         timeout: 2000,
         success: function(data) {
-            console.log(data)
-           
+             
         },
         error: function(xhr, status, error) {
             if(status==="timeout") {

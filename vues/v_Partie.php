@@ -10,10 +10,8 @@
                                 <div class="row">
                                     <div class="col-6">
                                         <p>Mon rôle :</p>
-                                        <p><?= $getCarteJoueur->getNom() ?></p>
                                     </div>
                                     <div class="col-6">
-                                        <img class="carte-info" src="<?=$getCarteJoueur->getImage()?>" alt="<?=$getCarteJoueur->getNom() ?>">
                                     </div>
                                 </div>  
                             </div>
@@ -24,12 +22,6 @@
                     <div class="liste-joueurs">
                         <div class="row">
                             <?php
-                                foreach ($getJoueursInPartie as $joueur) {
-                                    echo "<div class='col-3 mt-5'>";
-                                    echo "<img class='carte-joueur' src='images/dos_carte.png' alt='dos carte'>";
-                                    echo "<p class='nom-joueur'>" . $joueur->getPseudo()." "  ."</p>";
-                                    echo "</div>";
-                                }
                             ?>
                         </div>
                     </div>
