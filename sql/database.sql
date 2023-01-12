@@ -15,7 +15,8 @@ CREATE TABLE IF NOT EXISTS Chats(
    Chatid INT NOT NULL AUTO_INCREMENT,
    chatUserid INT,
    chatGameid INT,
-   CharText VARCHAR(50)
+   CharText VARCHAR(50),
+   `date` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
    PRIMARY KEY(Chatid)
 );
 
