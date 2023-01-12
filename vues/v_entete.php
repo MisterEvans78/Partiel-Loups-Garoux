@@ -19,10 +19,10 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link <?=$_REQUEST['uc'] == "accueil" ? "active" : ""?>" aria-current="page" href="index.php?uc=accueil" onclick="confirmation()" id="confirmationLeave">Accueil</a>
+                <a class="nav-link" aria-current="page" href="index.php?uc=accueil" onclick="confirmation()" id="confirmationLeave">Accueil</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link <?=$_REQUEST['uc'] == "partie" && $_REQUEST['action'] == "voirParties" ? "active" : ""?>" href="index.php?uc=partie&action=voirParties">Jouer</a>
+                <a class="nav-link" href="index.php?uc=partie&action=voirParties">Jouer</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="index.php?uc=partie&action=PartieInProgress">Test</a>
