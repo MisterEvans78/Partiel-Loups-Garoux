@@ -1,7 +1,15 @@
 <div class="container mt-5">
 
-    <h1 class="title">Salon de la partie : <?php echo $partie->getNomPartie() ; ?></h1> 
+    <h1 class="title">Salon de la partie : <?=$partie->getNomPartie()?></h1> 
     <div class="row fond-regle">
+        <?php
+            if($partie->getHost()->getId() == $_SESSION['joueur']->getId()){
+                ?>
+                    <a class="btn btn-primary" href="index.php?&uc=partie&action=PartieInProgress&idPartie=<?=$partie->getId()?>&idJoueur=<?=$_SESSION['joueur']->getId()?>&idCarteJoueur=<?=$_SESSION['joueur']->getcarte_id()?>">Commencer la partie</a>
+                <?php
+            }
+            
+        ?>
     <table class="table table-hover table-striped">
             <thead>
             <tr>
@@ -17,10 +25,13 @@
                         echo"<th>". $getJoueursInPartie[$i]->getPseudo() ."</th>";
                         echo"</tr>";
                     }
+
                 ?>
                 
                 
             </tbody>
+    </table>
+    <a class="btn btn-danger" href="index.php?&uc=partie&action=quitterSalon&idRoom=<?=$partie->getId()?>" >Quitter la partie </a>       
     </div>
 </div>
 
@@ -34,10 +45,9 @@ setInterval(function(){
     $.ajax({
         
     type: "GET",
-    url: "index.php?&uc=partie&action=getJoueursSalon&idRoom="+idRoom+"&sec="+nbSeconde,
+    url: "index.php?&uc=partie&action=getJoueursSalon&idRoom="+idRoom+"&sec="+nbSeconde+"&fluxAjax=oui",
     timeout: 2000,
     success: function(data) {
-        //console.log(data);
         salonTabJoueur(data);
 
     },
@@ -52,18 +62,12 @@ setInterval(function(){
 function salonTabJoueur(data){
     var $data = $(data);
     var $elements = $data.find("#tableJoueurs");
-    var $elements= $elements.children().map(function() {
-    return $(this).prop('outerHTML');
-}).get();
-    console.log($elements)
-    document.getElementById("tableJoueurs").innerHTML = $elements;
-    /*var container = document.createElement("div");
-    container.innerHTML = data;
-    var elements = container.getElementsByTagName("tbody");
-    console.log(elements);*/
-    //document.getElementById("tableJoueurs").innerHTML = elements;
- 
-
+    var $elements= $elements.children().map(function() {return $(this).prop('outerHTML');}).get();
+    document.getElementById("tableJoueurs").innerHTML = "";
+    for (let index = 0; index < $elements.length; index++) {
+        document.getElementById("tableJoueurs").innerHTML += $elements[index];
+        
+    }
 }
 
 </script>

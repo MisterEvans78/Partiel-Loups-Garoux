@@ -7,8 +7,10 @@ class Partie {
     private ?bool $estCommencer;
     private ?string $Pays;
     private ?string $nomPartie;
+    private ?int $hostId;
     private  $joueurs = [];
     private int $timer = 0;
+
 
     public function getnbJoueursMax() {
         return $this->nbJoueursMax;
@@ -74,6 +76,14 @@ class Partie {
         $this->nomPartie = $nom;
     }
 
+    public function getHostId() {
+        return $this->hostId;
+    }
+
+    public function setHostId($hostId) {
+        $this->hostId = $hostId;
+    }
+
     public function getTimer() {
         return $this->timer;
     }
@@ -85,7 +95,7 @@ class Partie {
     // On utilise ici une fonction newPartie au lieu du __construct
     // car PDO n'utilise pas le constructeur et ça créer une erreur comme quoi il manque des paramètres dans le constructeur
     // https://stackoverflow.com/questions/1699796/best-way-to-do-multiple-constructors-in-php
-    public static function newPartie($nbJoueursMax, $pays, $nomPartie) : Partie
+    public static function newPartie($nbJoueursMax, $pays, $nomPartie, Joueur $host) : Partie
     {
         $instance = new self;
         $instance->estTerminer=False;
@@ -93,6 +103,7 @@ class Partie {
         $instance->nbJoueursMax=$nbJoueursMax;
         $instance->Pays=$pays;
         $instance->nomPartie=$nomPartie;
+        $instance->hostId = $host->getId();
         return $instance;
     }
 
@@ -141,9 +152,41 @@ class Partie {
         $this->estCommencer = true;
     }
 
+    /**
+     * Retourne l'objet Joueur qui a créer la partie
+     * @return Joueur
+     */
+    public function getHost()
+    {
+        $sql = "SELECT joueur.* FROM joueur INNER JOIN partie ON joueur.joueur_id = partie.hostId WHERE partie.partie_id = :id";
+        $rs = PdoGsb::get_monPdo()->prepare($sql);
+        $rs->setFetchMode(PDO::FETCH_CLASS, 'Joueur');
+        $id = $this->getId();
+        $rs->bindParam('id', $id);
+        $rs->execute();
+        $result = $rs->fetch();
+		return $result;
+    }
+
+    /**
+     * Attribut le rôle d'hôte à un nouveau joueur après que le vrai hôte ai quitter la partie.
+     */
+    public function newHostAfterExit() {
+        $sql = "SELECT joueur_id FROM joueur WHERE partie_id = :id";
+        $rs = PdoGsb::get_monPdo()->prepare($sql);
+        $id = $this->getId();
+        $rs->bindParam('id', $id);
+        $rs->execute();
+        $result = $rs->fetch();
+
+        $newHostID = $result["joueur_id"];
+
+        $this->setHostId($newHostID);
+    }
+
     public static function getPartieById($id) : Partie
     {
-        $sql = "SELECT partie_id, nbNuit, estTerminer, estCommencer, nbJoueursMax, Pays, nomPartie FROM partie WHERE partie_id = :id";
+        $sql = "SELECT partie_id, nbNuit, estTerminer, estCommencer, nbJoueursMax, Pays, nomPartie, hostId FROM partie WHERE partie_id = :id";
 		$rs = PdoGsb::get_monPdo()->prepare($sql);
         $rs->setFetchMode(PDO::FETCH_CLASS, 'Partie');
         $rs->bindParam('id', $id);
@@ -158,7 +201,7 @@ class Partie {
      * @return PDOStatement|bool
      */
     public static function add(Partie $partie) {
-        $sql = "INSERT INTO partie(nbNuit, estTerminer, estCommencer, nbJoueursMax, Pays, nomPartie) VALUES(:nbNuit, :estTerminer, :estCommencer, :nbJoueursMax, :pays, :nomPartie)";
+        $sql = "INSERT INTO partie(nbNuit, estTerminer, estCommencer, nbJoueursMax, Pays, nomPartie, hostId) VALUES(:nbNuit, :estTerminer, :estCommencer, :nbJoueursMax, :pays, :nomPartie, :hostId)";
         $pdo = PdoGsb::get_monPdo();
         $rs = $pdo->prepare($sql);
 
@@ -168,12 +211,14 @@ class Partie {
         $nbJoueursMax = $partie->getnbJoueursMax();
         $pays = $partie->getPays();
         $nomPartie = $partie->getNomPartie();
+        $hostId = $partie->getHostId();
         $rs->bindParam('nbNuit', $nbNuit);
         $rs->bindParam(':estTerminer', $estTerminer);
         $rs->bindParam(':estCommencer', $estCommencer);
         $rs->bindParam(':nbJoueursMax', $nbJoueursMax);
         $rs->bindParam(':pays', $pays);
         $rs->bindParam(':nomPartie', $nomPartie);
+        $rs->bindParam(':hostId', $hostId);
 
         $rs->execute();
         $partie->setId($pdo->lastInsertId());
@@ -186,7 +231,7 @@ class Partie {
      * @return PDOStatement|bool
      */
     public static function update(Partie $partie) {
-        $sql = "UPDATE partie SET nbNuit = :nbNuit, estTerminer = :estTerminer, estCommencer = :estCommencer, nbJoueursMax = :nbJoueursMax, Pays = :pays, nomPartie = :nomPartie WHERE partie_id = :id";
+        $sql = "UPDATE partie SET nbNuit = :nbNuit, estTerminer = :estTerminer, estCommencer = :estCommencer, nbJoueursMax = :nbJoueursMax, Pays = :pays, nomPartie = :nomPartie, hostId = :hostId WHERE partie_id = :id";
         $rs = PdoGsb::get_monPdo()->prepare($sql);
 
         $nbNuit = $partie->getNbNuit();
@@ -196,12 +241,14 @@ class Partie {
         $pays = $partie->getPays();
         $nomPartie = $partie->getNomPartie();
         $id = $partie->getId();
+        $hostId = $partie->getHostId();
         $rs->bindParam('nbNuit', $nbNuit);
         $rs->bindParam(':estTerminer', $estTerminer);
         $rs->bindParam(':estCommencer', $estCommencer);
         $rs->bindParam(':nbJoueursMax', $nbJoueursMax);
         $rs->bindParam(':pays', $pays);
         $rs->bindParam(':nomPartie', $nomPartie);
+        $rs->bindParam(':hostId', $hostId);
         $rs->bindParam('id', $id);
 
         $rs->execute();

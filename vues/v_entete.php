@@ -19,7 +19,7 @@
           <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav">
               <li class="nav-item">
-                <a class="nav-link active" aria-current="page" href="index.php?uc=accueil">Accueil</a>
+                <a class="nav-link active" aria-current="page" href="index.php?uc=accueil" onclick="confirmation()" id="confirmationLeave">Accueil</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="index.php?uc=partie&action=voirParties">Jouer</a>

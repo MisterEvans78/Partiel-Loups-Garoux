@@ -23,7 +23,8 @@ switch($action){
             $nomPartie= $_REQUEST["nPartie"];
             $nbJoueur= $_REQUEST["nbJoueur"];
             $pays= $_REQUEST["paysPartie"];
-            $partie= Partie::newPartie($nbJoueur,$pays,$nomPartie);
+            $host = $_SESSION['joueur'];
+            $partie= Partie::newPartie($nbJoueur,$pays,$nomPartie, $host);
             Partie::add($partie);
             
             $_SESSION['joueur']->setPartie_id($partie->getId());
@@ -40,10 +41,12 @@ switch($action){
     }
     case 'PartieInProgress':{
         if (estConnecte()) {
-            $partie = Partie::getPartieById($_SESSION['joueur']->getPartie_id());
+            $id_partie = $_REQUEST['idPartie'];
+            $id_joueur = $_REQUEST['idJoueur'];
+            $id_carte_joueur = $_REQUEST['idCarteJoueur'];
+            $partie = Partie::getPartieById($id_partie);
             $getJoueursInPartie = Partie::getJoueursInPartie($partie);
-            $joueur = Joueur::getJoueurById($_SESSION['joueur']->getId());
-            $getCarteJoueur = Carte::getCarteById($joueur->getcarte_id());
+            $getCarteJoueur = Carte::getCarteById($id_carte_joueur);
             include("vues/v_Partie.php");
         } else {
             include("vues/v_connexion.php");
@@ -59,6 +62,7 @@ switch($action){
             $getJoueursInPartie=Partie::getJoueursInPartie($partie); 
            
             include("vues/v_salonPartie.php");
+            include("vues/v_chat.php");
         } else {
             include("vues/v_connexion.php");
         }
@@ -67,12 +71,32 @@ switch($action){
     case 'getJoueursSalon':{
         $idRoom = $_REQUEST['idRoom'];
         $nbSeconde = $_REQUEST['sec'];
-       // echo($nbSeconde);
         $partie = Partie::getPartieById($idRoom);
         $getJoueursInPartie=Partie::getJoueursInPartie($partie); 
         $countJ= count($getJoueursInPartie);
             include("vues/v_salonPartie.php");
         break;
+    }
+
+    case'quitterSalon':{
+        $_SESSION['joueur']->setPartie_id(null);
+        Joueur::update($_SESSION['joueur']);
+
+        $idRoom = $_REQUEST['idRoom'];
+        $partie = Partie::getPartieById($idRoom);
+        $nbJoueurs = Partie::nbJoueurPartie($idRoom);
+
+        // Si il reste au moins un joueur
+        if ($nbJoueurs > 0) {
+            // On attribut un nouvel hote
+            $partie->newHostAfterExit();
+            Partie::update($partie);
+        } else {
+            // Si il reste personne on supprime la partie
+            Partie::delete($partie);
+        }
+
+        header('Location: index.php');
     }
 
 }

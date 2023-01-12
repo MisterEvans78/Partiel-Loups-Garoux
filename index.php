@@ -13,24 +13,32 @@ $estConnecte = estConnecte();
 
 include("vues/v_entete.php");
 
-if(!isset($_REQUEST['uc'])){
-     $_REQUEST['uc'] = 'accueil';
-}	 
+if (!isset($_REQUEST['uc'])) {
+	$_REQUEST['uc'] = 'accueil';
+}
 
-$uc = $_REQUEST['uc'];
-switch($uc){
-	case 'accueil':{
-		include("controleurs/c_accueil.php");
-		break;
-	}
-	case 'connexion':{
-		include("controleurs/c_connexion.php");
-		break;
-	}
-	case 'partie':{
-		include("controleurs/c_partie.php");
-		break;
+if (!empty($_SESSION['joueur'])) {
+	if (!empty($_SESSION['joueur']->getPartie_id()) && empty($_REQUEST['fluxAjax'])  ) {
+		$_SESSION['joueur']->setPartie_id(null);
+		Joueur::update($_SESSION['joueur']);
 	}
 }
-include("vues/v_pied.php") ;
+
+
+$uc = $_REQUEST['uc'];
+switch ($uc) {
+	case 'accueil': {
+			include("controleurs/c_accueil.php");
+			break;
+		}
+	case 'connexion': {
+			include("controleurs/c_connexion.php");
+			break;
+		}
+	case 'partie': {
+			include("controleurs/c_partie.php");
+			break;
+		}
+}
+include("vues/v_pied.php");
 ?>

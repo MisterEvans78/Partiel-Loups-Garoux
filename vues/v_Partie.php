@@ -36,13 +36,6 @@
                 </div>
             </div>
         </div>
-        <div class="bas">
-            <div class="chat">
-                <div id="chat-zone"></div>
-            </div>
-            <div class="chat-footer">
-                <input id="message" type="text" placeholder="Que voulez-vous dire ?" class="form-control">
-            </div>
-        </div>
     </div>
 </div>
+
