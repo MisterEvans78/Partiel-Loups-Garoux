@@ -68,6 +68,12 @@
   width: 100px;
 }
 
+.carte-joueur:hover {
+  box-shadow: rgb(255, 255, 255) 0px 0px 20px 0px;
+  transition: 0.5s;
+  transform: scale(1.1);
+}
+
 .carte-carousel {
   width: 200px;
   height: 200px;

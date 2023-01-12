@@ -72,4 +72,9 @@ function deconnecter(){
    
 }
 
+function uploadMessage($message,$idJoueur,$idRoom,$date){
+	$req = "INSERT INTO chat (";
+}
+
+
 ?>

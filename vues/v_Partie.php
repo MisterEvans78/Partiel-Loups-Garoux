@@ -15,7 +15,7 @@
                                     <div class="col-6">
                                         <img class="carte-info" src="<?=$getCarteJoueur->getImage()?>" alt="<?=$getCarteJoueur->getNom() ?>">
                                     </div>
-                                </div>
+                                </div>  
                             </div>
                         </div>
                     </div>
@@ -28,6 +28,7 @@
                                 foreach ($getJoueursInPartie as $joueur) {
                                     echo "<div class='col-3 mt-5'>";
                                     echo "<img class='carte-joueur' src='images/dos_carte.png' alt='dos carte'>";
+                                    echo "<p class='nom-joueur'>$joueur</p>";
                                     echo "</div>";
                                 }
                             ?>
@@ -36,6 +37,7 @@
                 </div>
             </div>
         </div>
+        <?= include("vues/v_chat.php"); ?>
     </div>
 </div>
 

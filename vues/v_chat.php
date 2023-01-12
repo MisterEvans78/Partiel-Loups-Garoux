@@ -11,6 +11,8 @@
 <script TYPE="text/javascript">
 
 
+
+
 const message = document.getElementById('message');
 const send = document.getElementById('send');
 
@@ -30,7 +32,7 @@ function sendMessage() {
         return;
     }
     const newMessage = document.createElement('p');
-    newMessage.innerText = message.value;
+    newMessage.innerText = "<?= $_SESSION['joueur']->getPseudo() ?> : "+message.value;
     chatZone.appendChild(newMessage);
     chatZone.scrollTop = chatZone.scrollHeight;
 
