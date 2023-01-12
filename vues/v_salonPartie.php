@@ -4,10 +4,9 @@
     <div class="row fond-regle">
         <?php
             if($partie->getHost()->getId() == $_SESSION['joueur']->getId()){
-                $data = Partie::getJoueursInPartie($partie);
-                $convert_to_string = http_build_query($data);
                 ?>
-                    <a id="commencer" class="btn btn-primary" href="index.php?&uc=partie&action=PartieInProgress&idPartie=<?=$partie->getId()?>&getJoueursInPartie=<?= $convert_to_string ?>">Commencer la partie</a>
+                    <button id="commencer" class="btn btn-primary" onclick="gameLancer()">Commencer la partie </button>
+                    
                 <?php
             }
             
@@ -42,6 +41,21 @@
     
     let idRoom = <?php echo $partie->getId() ?>;
     var nbSeconde=0
+
+    function gameLancer(){
+            $.ajax({
+            type: "GET",
+            url: "index.php?&uc=partie&action=PartieLancer&fluxAjax=oui",
+            timeout: 2000,
+            error: function(xhr, status, error) {
+                if(status==="timeout") {
+                console.log("request timed out");
+                }
+            }
+        });
+    }
+
+    ////Intervale qui ajoute des joueurs
 setInterval(function(){
     nbSeconde++
     $.ajax({
@@ -61,21 +75,26 @@ setInterval(function(){
 
 }, 4000);
 
-$("#commencer").on("click", function() {
+///// Verifie si la partie est commencer 
+setInterval(function(){
     $.ajax({
         type: "GET",
-        url: "index.php?&uc=partie&action=PartieInProgress&fluxAjax=oui",
+        url: "index.php?&uc=partie&action=PartieInProgress&fluxAjax=oui&idPartie="+idRoom,
         timeout: 2000,
         success: function(data) {
-            window.location.href = data.redirectUrl;
+            console.log(data)
+            if (<?php echo $partie->getEstCommencer() ?>) {
+                window.location.href = "index.php?&uc=partie&action=PartieInProgress&idPartie="+idRoom;
+            }
+           
         },
         error: function(xhr, status, error) {
             if(status==="timeout") {
-                console.log("request timed out");
+            console.log("request timed out");
             }
         }
     });
-});
+}, 4000);
 
 function salonTabJoueur(data){
     var $data = $(data);

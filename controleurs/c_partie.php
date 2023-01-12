@@ -42,20 +42,20 @@ switch($action){
     case 'PartieInProgress':{
         if (estConnecte()) {
             $id_partie = $_REQUEST['idPartie'];
-            $joueurs_in_partie = $_REQUEST['getJoueursInPartie'];
-            $partie = Partie::getPartieById($id_partie);
-            if (!$partie->PartieACommencer()) {
+            $partieEstlancer=Partie::partieEstlancer($id_partie);
+            if($partieEstlancer) {
+                $joueurs_in_partie = $_REQUEST['getJoueursInPartie'];
+                $partie = Partie::getPartieById($id_partie);
                 $getJoueursInPartie = Partie::getJoueursInPartie($partie);
-                $getCarteJoueur = Carte::getCarteById(random_int(1, 8));
-                $partie->setEstCommencer(true); // commencer la partie
-                $redirectUrl = "index.php?&uc=partie&action=PartieInProgress&idPartie=$id_partie&getJoueursInPartie=$joueurs_in_partie";
-                include("vues/v_Partie.php");   
+                include("vues/v_Partie.php");
             }
+            
         } else {
             include("vues/v_connexion.php");
         }
         break;
     }
+
     case 'JoinSalon':{
         if (estConnecte()) {
             $idRoom = $_REQUEST['idRoom'];
@@ -100,6 +100,18 @@ switch($action){
         }
 
         header('Location: index.php');
+        break;
+    }
+
+    case 'PartieLancer':{
+        $partie = Partie::getPartieById($id_partie);
+        if (!$partie->PartieACommencer()) {
+            $getJoueursInPartie = Partie::getJoueursInPartie($partie);
+            $getCarteJoueur = Carte::getCarteById(random_int(1, 8));
+            $partie->setEstCommencer(true); // commencer la partie
+            Partie::update($partie);
+        }
+        break;
     }
 
 }
