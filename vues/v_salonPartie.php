@@ -40,6 +40,7 @@
     var tableJoueurs= document.getElementById("tableJoueurs");
     
     let idRoom = <?php echo $partie->getId() ?>;
+    let getCarteIdJoueur = <?php echo $_SESSION['joueur']->getCarteIdJoueur() ?>;
     var nbSeconde=0
 
     function gameLancer(){
@@ -79,12 +80,12 @@ setInterval(function(){
 setInterval(function(){
     $.ajax({
         type: "GET",
-        url: "index.php?&uc=partie&action=PartieInProgress&fluxAjax=oui&idPartie="+idRoom,
+        url: "index.php?&uc=partie&action=PartieInProgress&fluxAjax=oui&idPartie="+idRoom+"&getCarteIdJoueur="+getCarteIdJoueur,
         timeout: 2000,
         success: function(data) {
             console.log(data)
             if (<?php echo $partie->getEstCommencer() ?>) {
-                window.location.href = "index.php?&uc=partie&action=PartieInProgress&idPartie="+idRoom;
+                window.location.href = "index.php?&uc=partie&action=PartieInProgress&idPartie="+idRoom+"&getCarteIdJoueur="+getCarteIdJoueur;
             }
            
         },
