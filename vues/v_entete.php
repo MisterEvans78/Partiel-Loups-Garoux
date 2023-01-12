@@ -22,13 +22,7 @@
                 <a class="nav-link" aria-current="page" href="index.php?uc=accueil" onclick="confirmation()" id="confirmationLeave">Accueil</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="index.php?uc=partie&action=voirParties">Jouer</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="index.php?uc=partie&action=PartieInProgress">Test</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">Historique Partie</a>
+                <a class="nav-link" href="index.php?uc=partie&action=voirParties">Jouer en ligne</a>
               </li>
             </ul>
             <?php            
