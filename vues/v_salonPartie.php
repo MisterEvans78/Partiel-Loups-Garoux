@@ -30,7 +30,7 @@
     let idRoom = <?php echo $partie->getId() ?>;
     var nbSeconde=0
 setInterval(function(){
-   // location.reload();
+   //  location.reload();
 }, 400);
 
 </script>
