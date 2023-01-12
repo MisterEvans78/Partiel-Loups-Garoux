@@ -67,19 +67,11 @@ switch($action){
     case 'getJoueursSalon':{
         $idRoom = $_REQUEST['idRoom'];
         $nbSeconde = $_REQUEST['sec'];
-        echo($nbSeconde);
+       // echo($nbSeconde);
         $partie = Partie::getPartieById($idRoom);
         $getJoueursInPartie=Partie::getJoueursInPartie($partie); 
         $countJ= count($getJoueursInPartie);
-            for ($i=0; $i <$countJ; $i++) { 
-              //  if ($i==0) {echo "<tbody id='tableJoueurs'>" ;}
-                echo" <tr class='table-active' id='tableJ'>";
-                echo"<th> ". $i+1  ."/".  $partie->getnbJoueursMax() ."</th>";
-                echo"<th>". $getJoueursInPartie[$i]->getPseudo() ."</th>";
-                echo"</tr> ";
-                //if ($i==$countJ-1) {echo "</tbody>" ;}
-            }
-                
+            include("vues/v_salonPartie.php");
         break;
     }
 

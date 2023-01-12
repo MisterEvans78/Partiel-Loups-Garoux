@@ -50,11 +50,18 @@ setInterval(function(){
 }, 4000);
 
 function salonTabJoueur(data){
-    var container = document.createElement("div");
+    var $data = $(data);
+    var $elements = $data.find("#tableJoueurs");
+    var $elements= $elements.children().map(function() {
+    return $(this).prop('outerHTML');
+}).get();
+    console.log($elements)
+    document.getElementById("tableJoueurs").innerHTML = $elements;
+    /*var container = document.createElement("div");
     container.innerHTML = data;
-    var elements = container.querySelectorAll("#tableJoueurs");
-    console.log(container);
-    document.getElementById("tableJoueurs").innerHTML = elements;
+    var elements = container.getElementsByTagName("tbody");
+    console.log(elements);*/
+    //document.getElementById("tableJoueurs").innerHTML = elements;
  
 
 }
