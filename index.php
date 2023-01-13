@@ -20,8 +20,12 @@ if (!isset($_REQUEST['uc'])) {
 }
 
 if (!empty($_SESSION['joueur'])) {
-	if (!empty($_SESSION['joueur']->getPartie_id()) && empty($_REQUEST['fluxAjax'])  ) {
+	if (!empty($_SESSION['joueur']->getPartie_id()) && empty($_REQUEST['fluxAjax'])) {
 		$_SESSION['joueur']->setPartie_id(null);
+		$_SESSION['joueur']->setEstVivant(null);
+		$_SESSION['joueur']->setEstMaire(null);
+		$_SESSION['joueur']->setEstAmoureux(null);
+		$_SESSION['joueur']->setcarte_id(null);
 		Joueur::update($_SESSION['joueur']);
 	}
 }

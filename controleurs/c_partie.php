@@ -41,18 +41,28 @@ switch($action){
     }
     case 'PartieInProgress':{
         if (estConnecte()) {
-            $id_partie = $_REQUEST['idPartie'];
+            $id_partie = $_REQUEST['idPartie'];            
             $partieEstlancer=Partie::partieEstlancer($id_partie);
-            if($partieEstlancer) {
-                $partie = Partie::getPartieById($id_partie);
-                $getJoueursInPartie = Partie::getJoueursInPartie($partie);
-                $getCarteJoueur = Carte::getCarteById(random_int(1, 8));
-                include("vues/v_Partie.php");
-            }
-            
+            echo json_encode($partieEstlancer);
         } else {
             include("vues/v_connexion.php");
         }
+        break;
+    }
+    case 'afficherPartie':{
+        $id_partie = $_REQUEST['idPartie'];            
+        $partie = Partie::getPartieById($id_partie);
+        $getJoueursInPartie = Partie::getJoueursInPartie($partie);
+        $getJoueurCarte = Carte::getCarteById(random_int(1, 8));
+
+        $_SESSION['joueur']->setCarte($getJoueurCarte);
+        $_SESSION['joueur']->setEstVivant(true);
+        $_SESSION['joueur']->setEstMaire(false);
+        $_SESSION['joueur']->setEstAmoureux(false);
+        Joueur::update($_SESSION['joueur']);
+        
+        include("vues/v_Partie.php");
+        include("vues/v_chat.php");
         break;
     }
 
@@ -107,8 +117,6 @@ switch($action){
         $id_partie = $_REQUEST['idPartie'];
         $partie = Partie::getPartieById($id_partie);
         if (!$partie->PartieACommencer()) {
-            $getJoueursInPartie = Partie::getJoueursInPartie($partie);
-            $getCarteJoueur = Carte::getCarteById(random_int(1, 8));
             $partie->setEstCommencer(true); // commencer la partie
             Partie::update($partie);
         }

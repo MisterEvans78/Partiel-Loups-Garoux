@@ -10,9 +10,6 @@
 
 <script TYPE="text/javascript">
 
-
-
-
 const message = document.getElementById('message');
 const send = document.getElementById('send');
 const chatZone = document.getElementById('chat-zone');
@@ -72,5 +69,5 @@ setInterval(function(){
 
 
 }, 500);
-
+    
 </script>

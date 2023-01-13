@@ -7,6 +7,10 @@
                 ?>
                 <a class="btn btn-primary" id="commencer">Commencer la partie </a>
                 <?php
+            } else {
+                ?>
+                <a class="btn btn-primary" id="commencer" style="pointer-events: none;" hidden>Commencer la partie </a>
+                <?php
             }
             
         ?>
@@ -46,9 +50,6 @@
             type: "GET",
             url: "index.php?&uc=partie&action=commencerPartie&fluxAjax=oui&idPartie="+idRoom,
             timeout: 2000,
-            success: function(data) {
-                console.log(data)
-            },
             error: function(xhr, status, error) {
                 if(status==="timeout") {
                 console.log("request timed out");
@@ -77,14 +78,17 @@ setInterval(function(){
 
 }, 4000);
 
-///// Verifie si la partie est commencer 
+///// Verifie si la partie est commencer
 setInterval(function(){
     $.ajax({
         type: "GET",
         url: "index.php?&uc=partie&action=PartieInProgress&fluxAjax=oui&idPartie="+idRoom,
         timeout: 2000,
-        success: function(data) {
-             
+        success: function(response) {
+            let reponse = JSON.parse(response.trim());
+            if(reponse == true){
+                window.location.href = "index.php?&uc=partie&action=afficherPartie&fluxAjax=oui&idPartie="+idRoom;
+            }
         },
         error: function(xhr, status, error) {
             if(status==="timeout") {
@@ -92,7 +96,7 @@ setInterval(function(){
             }
         }
     });
-}, 4000);
+}, 1000);
 
 function salonTabJoueur(data){
     var $data = $(data);
