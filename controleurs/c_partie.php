@@ -34,6 +34,7 @@ switch($action){
             $getJoueursInPartie = Partie::getJoueursInPartie($partie);
     
             include("vues/v_salonPartie.php");
+            include("vues/v_chat.php");
         } else {
             include("vues/v_connexion.php");
         }
